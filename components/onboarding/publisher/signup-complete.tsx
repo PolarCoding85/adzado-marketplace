@@ -2,7 +2,18 @@ import { CheckCircle2Icon } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 
-export function SignupComplete({ data }: { data: any }) {
+interface PublisherSignupData {
+  businessName?: string
+  contactName?: string
+  email?: string
+  businessType?: string
+}
+
+export function SignupComplete({
+  formData,
+}: {
+  formData: PublisherSignupData
+}) {
   return (
     <div className='flex flex-col items-center justify-center py-12 space-y-8'>
       <div className='rounded-full bg-green-500/10 p-3'>
@@ -21,19 +32,17 @@ export function SignupComplete({ data }: { data: any }) {
           <div className='space-y-3'>
             <div className='flex justify-between'>
               <span className='text-sm text-muted-foreground'>Name</span>
-              <span className='font-medium'>
-                {data.personal.firstName} {data.personal.lastName}
-              </span>
+              <span className='font-medium'>{formData.contactName}</span>
             </div>
             <div className='flex justify-between'>
               <span className='text-sm text-muted-foreground'>Company</span>
-              <span className='font-medium'>{data.business.companyName}</span>
+              <span className='font-medium'>{formData.businessName}</span>
             </div>
             <div className='flex justify-between'>
               <span className='text-sm text-muted-foreground'>
                 Business Type
               </span>
-              <span className='font-medium'>{data.business.businessType}</span>
+              <span className='font-medium'>{formData.businessType}</span>
             </div>
           </div>
         </div>

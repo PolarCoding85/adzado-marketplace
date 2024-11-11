@@ -2,7 +2,17 @@ import { CheckCircle2Icon } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 
-export function OnboardingComplete({ data }: { data: any }) {
+interface OnboardingFormData {
+  businessName?: string
+  industry?: string
+  firstOffer?: string
+}
+
+export function OnboardingComplete({
+  formData,
+}: {
+  formData: OnboardingFormData
+}) {
   return (
     <div className='flex flex-col items-center justify-center py-12 space-y-8'>
       <div className='rounded-full bg-green-500/10 p-3'>
@@ -21,15 +31,15 @@ export function OnboardingComplete({ data }: { data: any }) {
           <div className='space-y-3'>
             <div className='flex justify-between'>
               <span className='text-sm text-muted-foreground'>Company</span>
-              <span className='font-medium'>{data.business.companyName}</span>
+              <span className='font-medium'>{formData.businessName}</span>
             </div>
             <div className='flex justify-between'>
               <span className='text-sm text-muted-foreground'>Industry</span>
-              <span className='font-medium'>{data.business.industry}</span>
+              <span className='font-medium'>{formData.industry}</span>
             </div>
             <div className='flex justify-between'>
               <span className='text-sm text-muted-foreground'>First Offer</span>
-              <span className='font-medium'>{data.offers.offerName}</span>
+              <span className='font-medium'>{formData.firstOffer}</span>
             </div>
           </div>
         </div>

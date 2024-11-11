@@ -4,7 +4,7 @@ import { Users2Icon, BadgeCheckIcon, TrendingUpIcon } from "lucide-react"
 interface OfferStats {
   activeAffiliates: number
   avgLeadQuality: number
-  acceptanceRate: number
+  acceptanceRate: string
 }
 
 export function OfferStats({ stats }: { stats: OfferStats }) {

@@ -60,8 +60,8 @@ const offers = [
     },
     advertiser: {
       name: "SolarLeads Pro",
-      founded: 2018,
-      totalOffers: 12,
+      founded: "2018",
+      totalOffers: "12",
       avgPayout: "$55",
       paymentTerms: "Net 15",
       minimumPayment: "$500",
@@ -103,8 +103,8 @@ const offers = [
     },
     advertiser: {
       name: "HealthLeads Direct",
-      founded: 2019,
-      totalOffers: 8,
+      founded: "2019",
+      totalOffers: "8",
       avgPayout: "$42",
       paymentTerms: "Net 30",
       minimumPayment: "$1000",
@@ -228,7 +228,7 @@ export default function OfferPage({ params }: { params: { id: string } }) {
             <OfferRequirements requirements={offer.requirements} />
           </TabsContent>
           <TabsContent value='advertiser' className='mt-6'>
-            <AdvertiserInfo advertiser={offer.advertiser} />
+            <AdvertiserInfo data={offer.advertiser} />
           </TabsContent>
         </Tabs>
       </div>

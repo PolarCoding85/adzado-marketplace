@@ -124,7 +124,7 @@ export default function OfferPage({ params }: { params: { id: string } }) {
   const offer = offers.find((o) => o.id === params.id) || offers[0]
 
   return (
-    <div className='container py-8'>
+    <div className='mx-auto w-full max-w-7xl px-4 py-8 sm:py-12 md:py-16'>
       {/* Header Section */}
       <div className='flex flex-col gap-6'>
         <div className='flex items-start justify-between'>

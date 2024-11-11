@@ -74,7 +74,7 @@ export default function AdvertisersPage() {
         <div className='mx-auto w-full max-w-7xl px-4'>
           <div className='flex flex-col items-center justify-center space-y-8 text-center'>
             <div className='space-y-4'>
-              <h1 className='gradient-heading text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl'>
+              <h1 className='gradient-heading text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tighter'>
                 Grow Your Lead Generation Business
               </h1>
               <p className='mx-auto max-w-[700px] text-gray-400 text-base sm:text-lg md:text-xl'>

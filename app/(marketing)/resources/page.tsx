@@ -91,14 +91,14 @@ export default function ResourcesPage() {
   return (
     <div className='flex flex-col'>
       {/* Hero Section */}
-      <section className='py-8 sm:py-12 md:py-16'>
+      <section className='py-8 sm:py-12 md:py-16 lg:py-20 '>
         <div className='mx-auto w-full max-w-7xl px-4'>
           <div className='flex flex-col items-center justify-center space-y-8 text-center'>
             <div className='space-y-4'>
               <h1 className='gradient-heading text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tighter'>
                 Resources & Learning Center
               </h1>
-              <p className='mx-auto max-w-[700px] text-gray-400 text-sm sm:text-base md:text-xl'>
+              <p className='mx-auto max-w-[700px] text-gray-400 text-base sm:text-lg md:text-xl'>
                 Expert guides, industry reports, and training resources to help
                 you succeed in lead generation.
               </p>

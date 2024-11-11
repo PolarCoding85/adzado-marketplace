@@ -7,7 +7,6 @@ import {
   ShieldCheckIcon,
   BarChartIcon,
   DollarSignIcon,
-  ClockIcon,
   StarIcon,
   SignalIcon,
   TagIcon,

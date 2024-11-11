@@ -46,7 +46,7 @@ export function TrafficSourcesForm({
   onNext,
   onBack,
 }: {
-  onNext: (data: any) => void
+  onNext: (data: z.infer<typeof trafficSchema>) => void
   onBack: () => void
 }) {
   const form = useForm<z.infer<typeof trafficSchema>>({
@@ -60,7 +60,7 @@ export function TrafficSourcesForm({
   })
 
   function onSubmit(values: z.infer<typeof trafficSchema>) {
-    onNext({ traffic: values })
+    onNext(values)
   }
 
   return (

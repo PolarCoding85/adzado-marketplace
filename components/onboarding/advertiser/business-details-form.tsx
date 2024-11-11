@@ -37,7 +37,7 @@ const businessSchema = z.object({
 export function BusinessDetailsForm({
   onNext,
 }: {
-  onNext: (data: any) => void
+  onNext: (data: z.infer<typeof businessSchema>) => void
 }) {
   const form = useForm<z.infer<typeof businessSchema>>({
     resolver: zodResolver(businessSchema),
@@ -53,7 +53,7 @@ export function BusinessDetailsForm({
   })
 
   function onSubmit(values: z.infer<typeof businessSchema>) {
-    onNext({ business: values })
+    onNext(values)
   }
 
   return (

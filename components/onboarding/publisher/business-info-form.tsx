@@ -37,7 +37,7 @@ export function BusinessInfoForm({
   onNext,
   onBack,
 }: {
-  onNext: (data: any) => void
+  onNext: (data: z.infer<typeof businessSchema>) => void
   onBack: () => void
 }) {
   const form = useForm<z.infer<typeof businessSchema>>({
@@ -53,7 +53,7 @@ export function BusinessInfoForm({
   })
 
   function onSubmit(values: z.infer<typeof businessSchema>) {
-    onNext({ business: values })
+    onNext(values)
   }
 
   return (

@@ -48,7 +48,7 @@ export function OfferDetailsForm({
   onNext,
   onBack,
 }: {
-  onNext: (data: any) => void
+  onNext: (data: z.infer<typeof offerSchema>) => void
   onBack: () => void
 }) {
   const form = useForm<z.infer<typeof offerSchema>>({
@@ -66,7 +66,7 @@ export function OfferDetailsForm({
   })
 
   function onSubmit(values: z.infer<typeof offerSchema>) {
-    onNext({ offers: values })
+    onNext(values)
   }
 
   return (
@@ -75,7 +75,7 @@ export function OfferDetailsForm({
         <div className='space-y-4'>
           <h2 className='text-xl font-semibold'>Offer Details</h2>
           <p className='text-sm text-muted-foreground'>
-            Tell us about the offer you'd like to list on our marketplace.
+            Tell us about the offer you&apos;d like to list on our marketplace.
           </p>
         </div>
 

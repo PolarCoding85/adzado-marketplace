@@ -34,7 +34,11 @@ const personalSchema = z
     path: ["confirmPassword"],
   })
 
-export function PersonalInfoForm({ onNext }: { onNext: (data: any) => void }) {
+export function PersonalInfoForm({
+  onNext,
+}: {
+  onNext: (data: z.infer<typeof personalSchema>) => void
+}) {
   const form = useForm<z.infer<typeof personalSchema>>({
     resolver: zodResolver(personalSchema),
     defaultValues: {
@@ -48,7 +52,7 @@ export function PersonalInfoForm({ onNext }: { onNext: (data: any) => void }) {
   })
 
   function onSubmit(values: z.infer<typeof personalSchema>) {
-    onNext({ personal: values })
+    onNext(values)
   }
 
   return (

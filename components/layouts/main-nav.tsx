@@ -49,10 +49,10 @@ export function MainNav() {
               variant='outline'
               className='hidden sm:inline-flex rounded-full'
             >
-              <Link href='/buyer-signup'>Media Buyer Signup</Link>
+              <Link href='/publisher-onboarding'>Publisher Signup</Link>
             </Button>
             <Button asChild className='hidden sm:inline-flex rounded-full'>
-              <Link href='/onboarding'>Post Offer</Link>
+              <Link href='/advertiser-onboarding'>Post Offer</Link>
             </Button>
             <MobileNav />
           </div>

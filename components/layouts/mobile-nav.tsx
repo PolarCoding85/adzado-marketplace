@@ -80,12 +80,18 @@ export function MobileNav() {
                 variant='outline'
                 className='w-full justify-start'
               >
-                <Link href='/buyer-signup' onClick={() => setOpen(false)}>
+                <Link
+                  href='/publisher-onboarding'
+                  onClick={() => setOpen(false)}
+                >
                   Media Buyer Signup
                 </Link>
               </Button>
               <Button asChild className='w-full justify-start'>
-                <Link href='/onboarding' onClick={() => setOpen(false)}>
+                <Link
+                  href='/advertiser-onboarding'
+                  onClick={() => setOpen(false)}
+                >
                   Post Offer
                 </Link>
               </Button>

@@ -172,7 +172,7 @@ export default function AdvertisersPage() {
           <div className='grid gap-6 md:grid-cols-2'>
             {testimonials.map((testimonial, index) => (
               <Card key={index} className='p-6 bg-white/5'>
-                <p className='text-lg mb-6'>"{testimonial.quote}"</p>
+                <p className='text-lg mb-6'>&quot;{testimonial.quote}&quot;</p>
                 <div>
                   <p className='font-semibold'>{testimonial.author}</p>
                   <p className='text-sm text-gray-400'>{testimonial.role}</p>

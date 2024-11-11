@@ -14,9 +14,9 @@ export default function TermsPage() {
         <div className='prose prose-gray dark:prose-invert max-w-none'>
           <h2>1. Acceptance of Terms</h2>
           <p>
-            By accessing and using the Adzado platform ("Platform"), you agree
-            to be bound by these Terms of Service ("Terms"). If you do not agree
-            to these Terms, do not use the Platform.
+            By accessing and using the Adzado platform (&quot;Platform&quot;),
+            you agree to be bound by these Terms of Service (&quot;Terms&quot;).
+            If you do not agree to these Terms, do not use the Platform.
           </p>
 
           <h2>2. Platform Description</h2>

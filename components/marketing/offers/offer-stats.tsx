@@ -1,12 +1,5 @@
 import { Card } from "@/components/ui/card"
-import {
-  BarChart3Icon,
-  Users2Icon,
-  BadgeCheckIcon,
-  ClockIcon,
-  TrendingUpIcon,
-  DollarSignIcon,
-} from "lucide-react"
+import { Users2Icon, BadgeCheckIcon, TrendingUpIcon } from "lucide-react"
 
 export function OfferStats({ stats }: { stats: any }) {
   return (

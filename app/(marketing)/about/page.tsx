@@ -15,7 +15,7 @@ export default function AboutPage() {
           About Adzado
         </h1>
         <p className='text-lg text-muted-foreground max-w-2xl mx-auto'>
-          We're building the future of lead generation, connecting quality
+          We&apos;re building the future of lead generation, connecting quality
           advertisers with top media buyers in a transparent, efficient
           marketplace.
         </p>
@@ -26,9 +26,10 @@ export default function AboutPage() {
         <div className='space-y-4'>
           <h2 className='text-3xl font-bold'>Our Mission</h2>
           <p className='text-muted-foreground'>
-            At Adzado, we're on a mission to revolutionize the lead generation
-            industry by creating a transparent, efficient, and quality-focused
-            marketplace that benefits both advertisers and media buyers.
+            At Adzado, we&apos;re on a mission to revolutionize the lead
+            generation industry by creating a transparent, efficient, and
+            quality-focused marketplace that benefits both advertisers and media
+            buyers.
           </p>
           <p className='text-muted-foreground'>
             We believe in fostering long-term partnerships, maintaining high

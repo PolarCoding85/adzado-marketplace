@@ -1,5 +1,4 @@
 import Link from "next/link"
-import { Building2, Home, Search } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { MobileNav } from "@/components/layouts/mobile-nav"
 

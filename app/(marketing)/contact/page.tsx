@@ -29,8 +29,8 @@ export default function ContactPage() {
           Contact Us
         </h1>
         <p className='text-lg text-muted-foreground max-w-2xl mx-auto'>
-          Have questions? We're here to help. Reach out to our team and we'll
-          get back to you as soon as possible.
+          Have questions? We&apos;re here to help. Reach out to our team and
+          we&apos;ll get back to you as soon as possible.
         </p>
       </div>
 
@@ -70,10 +70,10 @@ export default function ContactPage() {
                     Monday to Friday, 9am to 6pm EST
                   </p>
                   <a
-                    href='tel:+1-555-0123'
+                    href='tel:+1-555-555-5555'
                     className='text-green-500 hover:underline'
                   >
-                    +1 (555) 0123
+                    +1 (555) 555-5555
                   </a>
                 </div>
               </div>
@@ -108,7 +108,7 @@ export default function ContactPage() {
               </div>
               <h3 className='text-2xl font-semibold'>Message Sent!</h3>
               <p className='text-muted-foreground'>
-                Thank you for reaching out. We'll get back to you within 24
+                Thank you for reaching out. We&apos;ll get back to you within 24
                 hours.
               </p>
               <Button
@@ -124,8 +124,8 @@ export default function ContactPage() {
               <div className='space-y-2'>
                 <h2 className='text-2xl font-semibold'>Send a Message</h2>
                 <p className='text-sm text-muted-foreground'>
-                  Fill out the form below and we'll get back to you as soon as
-                  possible.
+                  Fill out the form below and we&apos;ll get back to you as soon
+                  as possible.
                 </p>
               </div>
 

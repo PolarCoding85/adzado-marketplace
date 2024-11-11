@@ -12,9 +12,9 @@ export default function PrivacyPage() {
         <div className='prose prose-gray dark:prose-invert max-w-none'>
           <h2>1. Introduction</h2>
           <p>
-            This Privacy Policy explains how Adzado ("we," "us," or "our")
-            collects, uses, and protects your personal information when you use
-            our platform.
+            This Privacy Policy explains how Adzado (&quot;we,&quot;
+            &quot;us,&quot; or &quot;our&quot;) collects, uses, and protects
+            your personal information when you use our platform.
           </p>
 
           <h2>2. Information We Collect</h2>
@@ -82,7 +82,7 @@ export default function PrivacyPage() {
             safeguards are in place to protect your information.
           </p>
 
-          <h2>9. Children's Privacy</h2>
+          <h2>9. Children&apos;s Privacy</h2>
           <p>
             Our platform is not intended for children under 13. We do not
             knowingly collect information from children under 13.

@@ -106,7 +106,7 @@ export function PersonalInfoForm({ onNext }: { onNext: (data: any) => void }) {
                   />
                 </FormControl>
                 <FormDescription>
-                  We'll send important updates to this email
+                  We&apos;ll send important updates to this email
                 </FormDescription>
                 <FormMessage />
               </FormItem>

@@ -53,7 +53,7 @@ export function Testimonials() {
                 </div>
 
                 <blockquote className='text-sm sm:text-base'>
-                  "{testimonial.quote}"
+                  &quot;{testimonial.quote}&quot;
                 </blockquote>
 
                 <div>

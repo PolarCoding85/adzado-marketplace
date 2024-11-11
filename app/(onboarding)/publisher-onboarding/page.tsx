@@ -2,22 +2,16 @@
 
 import { useState } from "react"
 import { Progress } from "@/components/ui/progress"
-import { PersonalInfoForm } from "@/components/onboarding/publisher/personal-info-form"
-import { BusinessInfoForm } from "@/components/onboarding/publisher/business-info-form"
-import { TrafficSourcesForm } from "@/components/onboarding/publisher/traffic-sources-form"
-import { SignupComplete } from "@/components/onboarding/publisher/signup-complete"
 
 const steps = [
-  { id: 1, title: "Personal Info" },
-  { id: 2, title: "Business Info" },
-  { id: 3, title: "Traffic Sources" },
-  { id: 4, title: "Complete" },
+  { id: 1, title: "Business Details" },
+  { id: 2, title: "Traffic Sources" },
+  { id: 3, title: "Complete" },
 ]
 
-export default function BuyerSignupPage() {
+export default function OnboardingPage() {
   const [currentStep, setCurrentStep] = useState(1)
   const [formData, setFormData] = useState({
-    personal: {},
     business: {},
     traffic: {},
   })
@@ -25,7 +19,14 @@ export default function BuyerSignupPage() {
   const progress = (currentStep / steps.length) * 100
 
   const handleNext = (data: any) => {
-    setFormData((prev) => ({ ...prev, ...data }))
+    if (currentStep === 1) {
+      setFormData((prev) => ({
+        ...prev,
+        business: data,
+      }))
+    } else if (currentStep === 2) {
+      setFormData((prev) => ({ ...prev, traffic: data }))
+    }
     setCurrentStep((prev) => prev + 1)
   }
 
@@ -39,7 +40,7 @@ export default function BuyerSignupPage() {
         {/* Progress Header */}
         <div className='mb-12'>
           <div className='flex items-center justify-between mb-4'>
-            <h1 className='text-2xl font-bold'>Media Buyer Registration</h1>
+            <h1 className='text-2xl font-bold'>Publisher Onboarding</h1>
             <span className='text-sm text-muted-foreground'>
               Step {currentStep} of {steps.length}
             </span>
@@ -49,14 +50,24 @@ export default function BuyerSignupPage() {
 
         {/* Step Content */}
         <div className='space-y-8'>
-          {currentStep === 1 && <PersonalInfoForm onNext={handleNext} />}
+          {currentStep === 1 && (
+            <div className='p-6 bg-white/5 rounded-lg'>
+              <h2 className='text-xl font-semibold mb-4'>Business Details</h2>
+              <p className='text-muted-foreground'>Form placeholder</p>
+            </div>
+          )}
           {currentStep === 2 && (
-            <BusinessInfoForm onNext={handleNext} onBack={handleBack} />
+            <div className='p-6 bg-white/5 rounded-lg'>
+              <h2 className='text-xl font-semibold mb-4'>Traffic Sources</h2>
+              <p className='text-muted-foreground'>Form placeholder</p>
+            </div>
           )}
           {currentStep === 3 && (
-            <TrafficSourcesForm onNext={handleNext} onBack={handleBack} />
+            <div className='p-6 bg-white/5 rounded-lg'>
+              <h2 className='text-xl font-semibold mb-4'>Complete</h2>
+              <p className='text-muted-foreground'>Completion placeholder</p>
+            </div>
           )}
-          {currentStep === 4 && <SignupComplete data={formData} />}
         </div>
       </div>
     </div>

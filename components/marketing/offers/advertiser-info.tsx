@@ -7,28 +7,38 @@ import {
   Building2Icon,
 } from "lucide-react"
 
-export function AdvertiserInfo({ advertiser }: { advertiser: any }) {
+interface AdvertiserInfo {
+  name: string
+  founded: string
+  avgPayout: string
+  paymentTerms: string
+  totalOffers?: string
+  minimumPayment?: string
+  verificationBadges?: string[]
+}
+
+export function AdvertiserInfo({ data }: { data: AdvertiserInfo }) {
   return (
     <div className='space-y-6'>
       <div>
-        <h2 className='text-xl font-semibold mb-4'>About {advertiser.name}</h2>
+        <h2 className='text-xl font-semibold mb-4'>About {data.name}</h2>
         <Card className='p-6 bg-white/5'>
           <div className='grid gap-6 md:grid-cols-2'>
             <div className='space-y-4'>
               <div className='flex items-center gap-2'>
                 <Building2Icon className='h-4 w-4 text-muted-foreground' />
-                <span className='text-sm'>Founded: {advertiser.founded}</span>
+                <span className='text-sm'>Founded: {data.founded}</span>
               </div>
               <div className='flex items-center gap-2'>
                 <DollarSignIcon className='h-4 w-4 text-muted-foreground' />
                 <span className='text-sm'>
-                  Average Payout: {advertiser.avgPayout}
+                  Average Payout: {data.avgPayout}
                 </span>
               </div>
               <div className='flex items-center gap-2'>
                 <ClockIcon className='h-4 w-4 text-muted-foreground' />
                 <span className='text-sm'>
-                  Payment Terms: {advertiser.paymentTerms}
+                  Payment Terms: {data.paymentTerms}
                 </span>
               </div>
             </div>
@@ -36,13 +46,13 @@ export function AdvertiserInfo({ advertiser }: { advertiser: any }) {
               <div className='flex items-center gap-2'>
                 <CalendarIcon className='h-4 w-4 text-muted-foreground' />
                 <span className='text-sm'>
-                  Active Offers: {advertiser.totalOffers}
+                  Active Offers: {data?.totalOffers}
                 </span>
               </div>
               <div className='flex items-center gap-2'>
                 <DollarSignIcon className='h-4 w-4 text-muted-foreground' />
                 <span className='text-sm'>
-                  Minimum Payment: {advertiser.minimumPayment}
+                  Minimum Payment: {data?.minimumPayment}
                 </span>
               </div>
             </div>
@@ -53,11 +63,11 @@ export function AdvertiserInfo({ advertiser }: { advertiser: any }) {
       <div>
         <h2 className='text-xl font-semibold mb-4'>Verification & Badges</h2>
         <div className='flex flex-wrap gap-2'>
-          {advertiser.verificationBadges.map((badge: string) => (
+          {data?.verificationBadges?.map((badge: string) => (
             <Badge key={badge} variant='secondary' className='bg-white/10'>
               {badge}
             </Badge>
-          ))}
+          )) || null}
         </div>
       </div>
     </div>

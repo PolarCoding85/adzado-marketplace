@@ -2,9 +2,6 @@
 
 import { useState } from "react"
 import { Progress } from "@/components/ui/progress"
-import { BusinessDetailsForm } from "@/components/onboarding/advertiser/business-details-form"
-import { OfferDetailsForm } from "@/components/onboarding/advertiser/offer-details-form"
-import { OnboardingComplete } from "@/components/onboarding/advertiser/onboarding-complete"
 
 const steps = [
   { id: 1, title: "Business Details" },
@@ -16,13 +13,20 @@ export default function OnboardingPage() {
   const [currentStep, setCurrentStep] = useState(1)
   const [formData, setFormData] = useState({
     business: {},
-    offers: {},
+    offer: {},
   })
 
   const progress = (currentStep / steps.length) * 100
 
   const handleNext = (data: any) => {
-    setFormData((prev) => ({ ...prev, ...data }))
+    if (currentStep === 1) {
+      setFormData((prev) => ({
+        ...prev,
+        business: data,
+      }))
+    } else if (currentStep === 2) {
+      setFormData((prev) => ({ ...prev, offer: data }))
+    }
     setCurrentStep((prev) => prev + 1)
   }
 
@@ -46,11 +50,24 @@ export default function OnboardingPage() {
 
         {/* Step Content */}
         <div className='space-y-8'>
-          {currentStep === 1 && <BusinessDetailsForm onNext={handleNext} />}
-          {currentStep === 2 && (
-            <OfferDetailsForm onNext={handleNext} onBack={handleBack} />
+          {currentStep === 1 && (
+            <div className='p-6 bg-white/5 rounded-lg'>
+              <h2 className='text-xl font-semibold mb-4'>Business Details</h2>
+              <p className='text-muted-foreground'>Form placeholder</p>
+            </div>
           )}
-          {currentStep === 3 && <OnboardingComplete data={formData} />}
+          {currentStep === 2 && (
+            <div className='p-6 bg-white/5 rounded-lg'>
+              <h2 className='text-xl font-semibold mb-4'>Offer Details</h2>
+              <p className='text-muted-foreground'>Form placeholder</p>
+            </div>
+          )}
+          {currentStep === 3 && (
+            <div className='p-6 bg-white/5 rounded-lg'>
+              <h2 className='text-xl font-semibold mb-4'>Complete</h2>
+              <p className='text-muted-foreground'>Completion placeholder</p>
+            </div>
+          )}
         </div>
       </div>
     </div>

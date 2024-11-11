@@ -1,7 +1,13 @@
 import { Card } from "@/components/ui/card"
 import { Users2Icon, BadgeCheckIcon, TrendingUpIcon } from "lucide-react"
 
-export function OfferStats({ stats }: { stats: any }) {
+interface OfferStats {
+  activeAffiliates: number
+  avgLeadQuality: number
+  acceptanceRate: number
+}
+
+export function OfferStats({ stats }: { stats: OfferStats }) {
   return (
     <div>
       <h2 className='text-xl font-semibold mb-4'>Performance Metrics</h2>
@@ -11,7 +17,7 @@ export function OfferStats({ stats }: { stats: any }) {
             <Users2Icon className='h-4 w-4 text-blue-500' />
             <span className='text-sm font-medium'>Active Affiliates</span>
           </div>
-          <p className='mt-2 text-2xl font-bold'>{stats.activeAffiliates}</p>
+          <p className='mt-2 text-2xl font-bold'>{stats?.activeAffiliates}</p>
           <p className='text-xs text-muted-foreground'>Currently running</p>
         </Card>
         <Card className='p-4 bg-white/5'>
@@ -19,7 +25,7 @@ export function OfferStats({ stats }: { stats: any }) {
             <BadgeCheckIcon className='h-4 w-4 text-green-500' />
             <span className='text-sm font-medium'>Lead Quality</span>
           </div>
-          <p className='mt-2 text-2xl font-bold'>{stats.avgLeadQuality}/10</p>
+          <p className='mt-2 text-2xl font-bold'>{stats?.avgLeadQuality}/10</p>
           <p className='text-xs text-muted-foreground'>Average score</p>
         </Card>
         <Card className='p-4 bg-white/5'>
@@ -27,7 +33,7 @@ export function OfferStats({ stats }: { stats: any }) {
             <TrendingUpIcon className='h-4 w-4 text-purple-500' />
             <span className='text-sm font-medium'>Acceptance Rate</span>
           </div>
-          <p className='mt-2 text-2xl font-bold'>{stats.acceptanceRate}</p>
+          <p className='mt-2 text-2xl font-bold'>{stats?.acceptanceRate}</p>
           <p className='text-xs text-muted-foreground'>Last 30 days</p>
         </Card>
       </div>

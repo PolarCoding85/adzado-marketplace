@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/providers/theme-provider"
 import { MainNav } from "@/components/layouts/main-nav"
 import { Toaster } from "@/components/ui/sonner"
 import { Footer } from "@/components/layouts/footer"
+import { SessionProvider } from "@/contexts/session-context"
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -34,12 +35,14 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}
       >
         <ThemeProvider attribute='class' defaultTheme='system' enableSystem>
-          <header className='sticky top-0 z-50 w-full'>
-            <MainNav />
-          </header>
-          <main className='flex-1'>{children}</main>
-          <Footer />
-          <Toaster />
+          <SessionProvider>
+            <header className='sticky top-0 z-50 w-full'>
+              <MainNav />
+            </header>
+            <main className='flex-1'>{children}</main>
+            <Footer />
+            <Toaster />
+          </SessionProvider>
         </ThemeProvider>
       </body>
     </html>

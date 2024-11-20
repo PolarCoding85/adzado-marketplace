@@ -100,8 +100,8 @@ export default function NotFound() {
           transition={{ delay: 0.3, duration: 0.5 }}
           className='text-gray-400 text-center mb-8 max-w-md mx-auto'
         >
-          Oops! The page you're looking for seems to have wandered off into the
-          digital void.
+          Oops! The page you&apos;re looking for seems to have wandered off into
+          the digital void.
         </motion.p>
         <motion.div
           initial={{ opacity: 0, y: 10 }}

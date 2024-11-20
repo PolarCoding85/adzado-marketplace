@@ -294,7 +294,7 @@ export default function PublishersPage() {
           <div className='grid gap-8 md:grid-cols-2'>
             {testimonials.map((testimonial, index) => (
               <Card key={index} className='p-6 bg-white/5'>
-                <p className='text-lg mb-6'>"{testimonial.quote}"</p>
+                <p className='text-lg mb-6'>&quot;{testimonial.quote}&quot;</p>
                 <div className='flex items-center gap-4'>
                   <div className='h-12 w-12 rounded-full bg-primary/20' />
                   <div>

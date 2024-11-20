@@ -13,7 +13,6 @@ import {
   TagIcon,
   ThumbsUpIcon,
   TrophyIcon,
-  AwardIcon,
   RocketIcon,
   TargetIcon,
   FlameIcon,

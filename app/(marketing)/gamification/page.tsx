@@ -12,7 +12,6 @@ import {
   UsersIcon,
   GlobeIcon,
   ShieldCheckIcon,
-  AwardIcon,
   CrownIcon,
   SparklesIcon,
   TimerIcon,

@@ -2,6 +2,42 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { MobileNav } from "@/components/layouts/mobile-nav"
 
+const menuItems = [
+  {
+    href: "/offers",
+    label: "Browse Offers",
+  },
+  {
+    href: "/advertisers",
+    label: "For Advertisers",
+  },
+  {
+    href: "/publishers",
+    label: "For Publishers",
+  },
+  {
+    href: "/resources",
+    label: "Resources",
+  },
+  {
+    href: "/gamification",
+    label: "Winning",
+  },
+]
+
+const authButtons = [
+  {
+    href: "/publisher-onboarding",
+    label: "Publisher Signup",
+    variant: "outline" as const,
+  },
+  {
+    href: "/advertiser-onboarding",
+    label: "Post Offer",
+    variant: "default" as const,
+  },
+]
+
 export function MainNav() {
   return (
     <div className='flex h-16 items-center px-4 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60'>
@@ -17,24 +53,15 @@ export function MainNav() {
               </div>
             </Link>
             <nav className='hidden md:flex items-center gap-6'>
-              <Link
-                href='/offers'
-                className='text-sm font-medium text-muted-foreground transition-colors hover:text-foreground'
-              >
-                Browse Offers
-              </Link>
-              <Link
-                href='/advertisers'
-                className='text-sm font-medium text-muted-foreground transition-colors hover:text-foreground'
-              >
-                For Advertisers
-              </Link>
-              <Link
-                href='/resources'
-                className='text-sm font-medium text-muted-foreground transition-colors hover:text-foreground'
-              >
-                Resources
-              </Link>
+              {menuItems.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className='text-sm font-medium text-muted-foreground transition-colors hover:text-foreground'
+                >
+                  {item.label}
+                </Link>
+              ))}
             </nav>
           </div>
           <div className='flex items-center gap-4'>
@@ -44,16 +71,16 @@ export function MainNav() {
             >
               Sign In
             </Link>
-            <Button
-              asChild
-              variant='outline'
-              className='hidden sm:inline-flex rounded-full'
-            >
-              <Link href='/publisher-onboarding'>Publisher Signup</Link>
-            </Button>
-            <Button asChild className='hidden sm:inline-flex rounded-full'>
-              <Link href='/advertiser-onboarding'>Post Offer</Link>
-            </Button>
+            {authButtons.map((button) => (
+              <Button
+                key={button.href}
+                asChild
+                variant={button.variant}
+                className='hidden sm:inline-flex rounded-full'
+              >
+                <Link href={button.href}>{button.label}</Link>
+              </Button>
+            ))}
             <MobileNav />
           </div>
         </div>

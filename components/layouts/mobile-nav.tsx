@@ -2,7 +2,14 @@
 
 import * as React from "react"
 import Link from "next/link"
-import { Building2, Menu, Search } from "lucide-react"
+import {
+  Building2,
+  GraduationCap,
+  Menu,
+  Search,
+  Trophy,
+  Users,
+} from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import {
@@ -11,6 +18,52 @@ import {
   SheetTrigger,
   SheetTitle,
 } from "@/components/ui/sheet"
+
+const menuItems = [
+  {
+    href: "/offers",
+    label: "Browse Offers",
+    icon: Search,
+  },
+  {
+    href: "/advertisers",
+    label: "For Advertisers",
+    icon: Building2,
+  },
+  {
+    href: "/publishers",
+    label: "For Publishers",
+    icon: Users,
+  },
+  {
+    href: "/resources",
+    label: "Resources",
+    icon: GraduationCap,
+  },
+  {
+    href: "/gamification",
+    label: "Winning",
+    icon: Trophy,
+  },
+]
+
+const authButtons = [
+  {
+    href: "/sign-in",
+    label: "Sign In",
+    variant: "outline" as const,
+  },
+  {
+    href: "/publisher-onboarding",
+    label: "Publisher Signup",
+    variant: "outline" as const,
+  },
+  {
+    href: "/advertiser-onboarding",
+    label: "Post Offer",
+    variant: "default" as const,
+  },
+]
 
 export function MobileNav() {
   const [open, setOpen] = React.useState(false)
@@ -41,60 +94,33 @@ export function MobileNav() {
         </div>
         <ScrollArea className='my-4 h-[calc(100vh-8rem)] pb-10'>
           <div className='flex flex-col gap-4'>
-            <Link
-              href='/offers'
-              className='flex items-center text-sm font-medium text-muted-foreground transition-colors hover:text-primary'
-              onClick={() => setOpen(false)}
-            >
-              <Search className='mr-2 h-4 w-4' />
-              Explore Offers
-            </Link>
-            <Link
-              href='/advertisers'
-              className='flex items-center text-sm font-medium text-muted-foreground transition-colors hover:text-primary'
-              onClick={() => setOpen(false)}
-            >
-              <Building2 className='mr-2 h-4 w-4' />
-              For Advertisers
-            </Link>
-            <Link
-              href='/resources'
-              className='flex items-center text-sm font-medium text-muted-foreground transition-colors hover:text-primary'
-              onClick={() => setOpen(false)}
-            >
-              <Building2 className='mr-2 h-4 w-4' />
-              Resources
-            </Link>
+            {menuItems.map((item) => {
+              const Icon = item.icon
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className='flex items-center text-sm font-medium text-muted-foreground transition-colors hover:text-primary'
+                  onClick={() => setOpen(false)}
+                >
+                  <Icon className='mr-2 h-4 w-4' />
+                  {item.label}
+                </Link>
+              )
+            })}
             <div className='flex flex-col gap-2 pt-4'>
-              <Button
-                asChild
-                variant='outline'
-                className='w-full justify-start'
-              >
-                <Link href='/sign-in' onClick={() => setOpen(false)}>
-                  Sign In
-                </Link>
-              </Button>
-              <Button
-                asChild
-                variant='outline'
-                className='w-full justify-start'
-              >
-                <Link
-                  href='/publisher-onboarding'
-                  onClick={() => setOpen(false)}
+              {authButtons.map((button) => (
+                <Button
+                  key={button.href}
+                  asChild
+                  variant={button.variant}
+                  className='w-full justify-start'
                 >
-                  Media Buyer Signup
-                </Link>
-              </Button>
-              <Button asChild className='w-full justify-start'>
-                <Link
-                  href='/advertiser-onboarding'
-                  onClick={() => setOpen(false)}
-                >
-                  Post Offer
-                </Link>
-              </Button>
+                  <Link href={button.href} onClick={() => setOpen(false)}>
+                    {button.label}
+                  </Link>
+                </Button>
+              ))}
             </div>
           </div>
         </ScrollArea>

@@ -1,13 +1,88 @@
 import Link from "next/link"
-import { Building2Icon, GithubIcon, TwitterIcon } from "lucide-react"
+import { GithubIcon, TwitterIcon, LinkedinIcon } from "lucide-react"
+
+const platformLinks = [
+  {
+    href: "/offers",
+    label: "Browse Offers",
+  },
+  {
+    href: "/advertisers",
+    label: "For Advertisers",
+  },
+  {
+    href: "/publishers",
+    label: "For Publishers",
+  },
+  {
+    href: "/gamification",
+    label: "Winning",
+  },
+]
+
+const companyLinks = [
+  {
+    href: "/about",
+    label: "About Us",
+  },
+  {
+    href: "/contact",
+    label: "Contact",
+  },
+  {
+    href: "/careers",
+    label: "Careers",
+  },
+  {
+    href: "/resources",
+    label: "Resources",
+  },
+]
+
+const legalLinks = [
+  {
+    href: "/privacy",
+    label: "Privacy Policy",
+  },
+  {
+    href: "/terms",
+    label: "Terms of Service",
+  },
+  {
+    href: "/cookies",
+    label: "Cookie Policy",
+  },
+  {
+    href: "/disclaimer",
+    label: "Disclaimer",
+  },
+]
+
+const socialLinks = [
+  {
+    href: "https://twitter.com",
+    label: "Twitter",
+    icon: TwitterIcon,
+  },
+  {
+    href: "https://linkedin.com",
+    label: "LinkedIn",
+    icon: LinkedinIcon,
+  },
+  {
+    href: "https://github.com",
+    label: "GitHub",
+    icon: GithubIcon,
+  },
+]
 
 export function Footer() {
   return (
     <footer className='border-t bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60'>
       <div className='mx-auto w-full max-w-7xl px-4 py-10'>
-        <div className='grid gap-8 sm:grid-cols-2 md:grid-cols-4'>
+        <div className='grid gap-8 sm:grid-cols-2 md:grid-cols-5'>
           {/* Brand and Description */}
-          <div className='space-y-4'>
+          <div className='space-y-4 md:col-span-2'>
             <div className='flex items-center'>
               <div className='h-6 w-1.5 bg-blue-500 transform -skew-x-12' />
               <span className='text-xl font-bold ml-2'>
@@ -16,7 +91,8 @@ export function Footer() {
             </div>
             <p className='text-sm text-muted-foreground'>
               Premium lead generation marketplace connecting advertisers with
-              quality media buyers.
+              quality media buyers. Join our network of successful publishers
+              and advertisers.
             </p>
           </div>
 
@@ -24,38 +100,16 @@ export function Footer() {
           <div className='space-y-4'>
             <h3 className='font-semibold'>Platform</h3>
             <ul className='space-y-3'>
-              <li>
-                <Link
-                  href='/offers'
-                  className='text-sm text-muted-foreground hover:text-foreground transition-colors'
-                >
-                  Browse Offers
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href='/advertisers'
-                  className='text-sm text-muted-foreground hover:text-foreground transition-colors'
-                >
-                  For Advertisers
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href='/resources'
-                  className='text-sm text-muted-foreground hover:text-foreground transition-colors'
-                >
-                  Resources
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href='/dashboard'
-                  className='text-sm text-muted-foreground hover:text-foreground transition-colors'
-                >
-                  Dashboard
-                </Link>
-              </li>
+              {platformLinks.map((link) => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className='text-sm text-muted-foreground hover:text-foreground transition-colors'
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
@@ -63,85 +117,61 @@ export function Footer() {
           <div className='space-y-4'>
             <h3 className='font-semibold'>Company</h3>
             <ul className='space-y-3'>
-              <li>
-                <Link
-                  href='/about'
-                  className='text-sm text-muted-foreground hover:text-foreground transition-colors'
-                >
-                  About Us
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href='/contact'
-                  className='text-sm text-muted-foreground hover:text-foreground transition-colors'
-                >
-                  Contact
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href='/privacy'
-                  className='text-sm text-muted-foreground hover:text-foreground transition-colors'
-                >
-                  Privacy Policy
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href='/terms'
-                  className='text-sm text-muted-foreground hover:text-foreground transition-colors'
-                >
-                  Terms of Service
-                </Link>
-              </li>
+              {companyLinks.map((link) => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className='text-sm text-muted-foreground hover:text-foreground transition-colors'
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
-          {/* Social Links */}
+          {/* Legal Links */}
           <div className='space-y-4'>
-            <h3 className='font-semibold'>Connect</h3>
+            <h3 className='font-semibold'>Legal</h3>
             <ul className='space-y-3'>
-              <li>
-                <a
-                  href='https://twitter.com'
-                  target='_blank'
-                  rel='noopener noreferrer'
-                  className='flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors'
-                >
-                  <TwitterIcon className='h-4 w-4' />
-                  Twitter
-                </a>
-              </li>
-              <li>
-                <a
-                  href='https://github.com'
-                  target='_blank'
-                  rel='noopener noreferrer'
-                  className='flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors'
-                >
-                  <GithubIcon className='h-4 w-4' />
-                  GitHub
-                </a>
-              </li>
-              <li>
-                <a
-                  href='https://linkedin.com'
-                  target='_blank'
-                  rel='noopener noreferrer'
-                  className='flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors'
-                >
-                  <Building2Icon className='h-4 w-4' />
-                  LinkedIn
-                </a>
-              </li>
+              {legalLinks.map((link) => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className='text-sm text-muted-foreground hover:text-foreground transition-colors'
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
         </div>
 
-        {/* Copyright */}
-        <div className='mt-8 pt-8 border-t text-center text-sm text-muted-foreground'>
-          <p>© {new Date().getFullYear()} Adzado. All rights reserved.</p>
+        {/* Social Links and Copyright */}
+        <div className='mt-8 pt-8 border-t'>
+          <div className='flex flex-col sm:flex-row justify-between items-center gap-4'>
+            <p className='text-sm text-muted-foreground'>
+              © {new Date().getFullYear()} Adzado. All rights reserved.
+            </p>
+            <div className='flex items-center gap-4'>
+              {socialLinks.map((link) => {
+                const Icon = link.icon
+                return (
+                  <a
+                    key={link.href}
+                    href={link.href}
+                    target='_blank'
+                    rel='noopener noreferrer'
+                    className='text-muted-foreground hover:text-foreground transition-colors'
+                  >
+                    <Icon className='h-5 w-5' />
+                    <span className='sr-only'>{link.label}</span>
+                  </a>
+                )
+              })}
+            </div>
+          </div>
         </div>
       </div>
     </footer>

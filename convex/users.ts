@@ -196,6 +196,48 @@ export const saveAdvertiserOnboarding = mutation({
   },
 });
 
+// Save publisher onboarding
+export const savePublisherOnboarding = mutation({
+  args: {
+    clerkUserId: v.string(),
+    firstName: v.string(),
+    lastName: v.string(),
+    phoneNumber: v.optional(v.string()),
+    hasCompany: v.optional(v.boolean()),
+    companyName: v.optional(v.string()),
+    taxId: v.optional(v.string()),
+    website: v.optional(v.string()),
+    industries: v.optional(v.array(v.string())),
+    subIndustries: v.optional(v.array(v.string())),
+    marketingMethods: v.optional(v.array(v.string())),
+    leadTypes: v.optional(v.array(v.string())),
+    dailyLeadVolume: v.optional(v.string()),
+    certifications: v.optional(v.array(v.string())),
+    additionalInfo: v.optional(v.string()),
+    onboardingComplete: v.boolean(),
+  },
+  handler: async (ctx, args) => {
+    const { clerkUserId, ...updateData } = args;
+
+    const existingUser = await ctx.db
+      .query("users")
+      .withIndex("by_clerk_user_id", (q) => q.eq("clerkUserId", clerkUserId))
+      .unique();
+
+    if (!existingUser) {
+      throw new Error("User not found");
+    }
+
+    // Update the user record with all the onboarding data
+    const userId = await ctx.db.patch(existingUser._id, {
+      ...updateData,
+      updatedAt: Date.now(),
+    });
+
+    return userId;
+  },
+});
+
 // Delete a user from Clerk
 export const deleteFromClerk = internalMutation({
   args: { clerkUserId: v.string() },

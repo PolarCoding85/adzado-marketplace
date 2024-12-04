@@ -17,6 +17,7 @@ const routeConfig = {
       "/dashboard/offers/applications",
       "/dashboard/payouts",
       "/dashboard/settings",
+      "/publisher-onboarding",  // Added onboarding route
     ],
     redirect: "/dashboard/offers/publisher",
     onboarding: "/publisher-onboarding",
@@ -30,6 +31,7 @@ const routeConfig = {
       "/dashboard/company",
       "/dashboard/billing",
       "/dashboard/settings",
+      "/advertiser-onboarding",  // Added onboarding route
     ],
     redirect: "/dashboard/offers",
     onboarding: "/advertiser-onboarding",
@@ -144,6 +146,7 @@ export default clerkMiddleware(async (auth, req) => {
       if (path !== correctOnboardingRoute) {
         return NextResponse.redirect(new URL(correctOnboardingRoute, req.url));
       }
+      return NextResponse.next();  // Allow access to correct onboarding route
     }
   }
 

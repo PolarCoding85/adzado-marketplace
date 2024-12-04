@@ -1,44 +1,35 @@
-"use client"
+// components/layouts/role-based-layout.tsx
 
-import { useSession } from "@/contexts/session-context"
-import { useRouter, usePathname } from "next/navigation"
-import { useEffect } from "react"
-import { LoadingPage } from "@/components/loading"
+"use client";
+
+import { useEffect } from "react";
+import { useAuth } from "@/hooks/useAuth";
+import { LoadingPage } from "@/components/loading";
+import { SideNav } from "@/components/dashboard/side-nav";
+import { TopNav } from "@/components/dashboard/top-nav";
 
 interface RoleBasedLayoutProps {
-  children: React.ReactNode
-  allowedRoles?: ("publisher" | "advertiser")[]
+  children: React.ReactNode;
 }
 
-export function RoleBasedLayout({
-  children,
-  allowedRoles,
-}: RoleBasedLayoutProps) {
-  const { user, isLoading } = useSession()
-  const router = useRouter()
-  const pathname = usePathname()
+export function RoleBasedLayout({ children }: RoleBasedLayoutProps) {
+  const { loading, checkAuth } = useAuth();
 
   useEffect(() => {
-    if (!isLoading) {
-      if (!user) {
-        router.push(`/sign-in?redirect=${encodeURIComponent(pathname)}`)
-        return
-      }
+    checkAuth();
+  }, [checkAuth]);
 
-      if (allowedRoles && !allowedRoles.includes(user.role)) {
-        router.push("/unauthorized")
-        return
-      }
-    }
-  }, [user, isLoading, router, pathname, allowedRoles])
-
-  if (isLoading) {
-    return <LoadingPage />
+  if (loading) {
+    return <LoadingPage />;
   }
 
-  if (!user || (allowedRoles && !allowedRoles.includes(user.role))) {
-    return null
-  }
-
-  return <>{children}</>
+  return (
+    <div className="flex h-screen">
+      <SideNav />
+      <div className="flex-1 flex flex-col">
+        <TopNav />
+        <main className="flex-1 overflow-y-auto p-6">{children}</main>
+      </div>
+    </div>
+  );
 }

@@ -1,8 +1,8 @@
-"use client"
+"use client";
 
-import { useRole } from "@/hooks/use-role"
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
+import { useAuth } from "@/hooks/useAuth";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 import {
   LayoutDashboard,
   BarChart,
@@ -13,20 +13,20 @@ import {
   DollarSign,
   Search,
   Bell,
-} from "lucide-react"
-import Link from "next/link"
-import { usePathname } from "next/navigation"
+} from "lucide-react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 interface NavItem {
-  title: string
-  href: string
-  icon: any
-  description?: string
+  title: string;
+  href: string;
+  icon: any;
+  description?: string;
 }
 
 export function SideNav() {
-  const role = useRole()
-  const pathname = usePathname()
+  const { role } = useAuth();
+  const pathname = usePathname();
 
   // Common navigation items
   const commonNavItems: NavItem[] = [
@@ -40,7 +40,7 @@ export function SideNav() {
       href: "/dashboard/analytics",
       icon: BarChart,
     },
-  ]
+  ];
 
   // Publisher-specific navigation items
   const publisherNavItems: NavItem[] = [
@@ -68,7 +68,7 @@ export function SideNav() {
       icon: Settings,
       description: "Account settings",
     },
-  ]
+  ];
 
   // Advertiser-specific navigation items
   const advertiserNavItems: NavItem[] = [
@@ -108,18 +108,18 @@ export function SideNav() {
       icon: Settings,
       description: "Account settings",
     },
-  ]
+  ];
 
   const navItems = [
     ...commonNavItems,
     ...(role === "publisher" ? publisherNavItems : advertiserNavItems),
-  ]
+  ];
 
   return (
-    <div className='w-64 border-r bg-muted/10 h-screen sticky top-0'>
-      <div className='space-y-4 py-4'>
-        <div className='px-3 py-2'>
-          <div className='space-y-1'>
+    <div className="w-64 border-r bg-muted/10 h-screen sticky top-0">
+      <div className="space-y-4 py-4">
+        <div className="px-3 py-2">
+          <div className="space-y-1">
             {navItems.map((item) => (
               <Link key={item.href} href={item.href}>
                 <Button
@@ -130,7 +130,7 @@ export function SideNav() {
                   )}
                   title={item.description}
                 >
-                  <item.icon className='mr-2 h-4 w-4' />
+                  <item.icon className="mr-2 h-4 w-4" />
                   {item.title}
                 </Button>
               </Link>
@@ -139,5 +139,5 @@ export function SideNav() {
         </div>
       </div>
     </div>
-  )
+  );
 }

@@ -1,6 +1,7 @@
+// app/layout.tsx
+
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { Providers } from "./providers";
 import { MainNav } from "@/components/layouts/main-nav";
 import { Footer } from "@/components/layouts/footer";
 import SystemProviders from "@/providers/system-providers";

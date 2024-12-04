@@ -1,50 +1,33 @@
-import type { Metadata } from "next"
-import localFont from "next/font/local"
-import "./globals.css"
-import { ThemeProvider } from "@/providers/theme-provider"
-import { MainNav } from "@/components/layouts/main-nav"
-import { Toaster } from "@/components/ui/sonner"
-import { Footer } from "@/components/layouts/footer"
-import { SessionProvider } from "@/contexts/session-context"
+import { Inter } from "next/font/google";
+import "./globals.css";
+import { Providers } from "./providers";
+import { MainNav } from "@/components/layouts/main-nav";
+import { Footer } from "@/components/layouts/footer";
+import SystemProviders from "@/providers/system-providers";
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-})
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
-})
+const inter = Inter({ subsets: ["latin"] });
 
-export const metadata: Metadata = {
-  title: "Adzado - Premium Lead Generation Marketplace",
-  description:
-    "Connect with verified advertisers and discover high-converting lead generation offers. Scale your media buying business with quality leads.",
-}
+export const metadata = {
+  title: "Adzado Marketplace",
+  description: "Connect publishers and advertisers",
+};
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode
-}>) {
+}: {
+  children: React.ReactNode;
+}) {
   return (
-    <html lang='en' suppressHydrationWarning>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}
-      >
-        <ThemeProvider attribute='class' defaultTheme='system' enableSystem>
-          <SessionProvider>
-            <header className='sticky top-0 z-50 w-full'>
-              <MainNav />
-            </header>
-            <main className='flex-1'>{children}</main>
+    <html lang="en" suppressHydrationWarning>
+      <body className={inter.className}>
+        <SystemProviders>
+          <div className="relative min-h-screen flex flex-col">
+            <MainNav />
+            <main className="flex-1">{children}</main>
             <Footer />
-            <Toaster />
-          </SessionProvider>
-        </ThemeProvider>
+          </div>
+        </SystemProviders>
       </body>
     </html>
-  )
+  );
 }

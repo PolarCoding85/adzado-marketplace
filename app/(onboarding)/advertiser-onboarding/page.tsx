@@ -1,20 +1,22 @@
-"use client"
+// app/(onboarding)/advertiser-onboarding/page.tsx
 
-import { Button } from "@/components/ui/button"
-import { Card } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Checkbox } from "@/components/ui/checkbox"
-import { Label } from "@/components/ui/label"
-import { useState } from "react"
-import { useRouter } from "next/navigation"
-import { motion } from "framer-motion"
+"use client";
+
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { motion } from "framer-motion";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
+} from "@/components/ui/select";
 import {
   Command,
   CommandEmpty,
@@ -22,40 +24,41 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from "@/components/ui/command"
+} from "@/components/ui/command";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover"
-import { Badge } from "@/components/ui/badge"
-import { X, Check } from "lucide-react"
+} from "@/components/ui/popover";
+import { Badge } from "@/components/ui/badge";
+import { X, Check } from "lucide-react";
+import { useOnboarding } from "@/hooks/useOnboarding";
 
-type GeographyLevel = "global" | "country" | "state" | "city" | "postal"
+type GeographyLevel = "global" | "country" | "state" | "city" | "postal";
 type Location = {
-  id: string
-  type: GeographyLevel
-  value: string
-  label: string
-  parentId?: string
-}
+  id: string;
+  type: GeographyLevel;
+  value: string;
+  label: string;
+  parentId?: string;
+};
 
 export default function AdvertiserOnboardingPage() {
-  const router = useRouter()
-  const [step, setStep] = useState(1)
-  const [isLoading, setIsLoading] = useState(false)
-  const [hasCompany, setHasCompany] = useState(false)
-  const [targetIndustries, setTargetIndustries] = useState<string[]>([])
-  const [targetSubIndustries, setTargetSubIndustries] = useState<string[]>([])
-  const [leadPreferences, setLeadPreferences] = useState<string[]>([])
-  const [targetGeographies, setTargetGeographies] = useState<string[]>([])
-  const [industriesOpen, setIndustriesOpen] = useState(false)
-  const [subIndustriesOpen, setSubIndustriesOpen] = useState(false)
-  const [jobTitle, setJobTitle] = useState("")
-  const [jobTitleOpen, setJobTitleOpen] = useState(false)
-  const [geoLevel, setGeoLevel] = useState<GeographyLevel>("global")
-  const [selectedLocations, setSelectedLocations] = useState<Location[]>([])
-  const [locationSearchOpen, setLocationSearchOpen] = useState(false)
+  const router = useRouter();
+  const [step, setStep] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
+  const [hasCompany, setHasCompany] = useState(false);
+  const [targetIndustries, setTargetIndustries] = useState<string[]>([]);
+  const [targetSubIndustries, setTargetSubIndustries] = useState<string[]>([]);
+  const [leadPreferences, setLeadPreferences] = useState<string[]>([]);
+  const [targetGeographies, setTargetGeographies] = useState<string[]>([]);
+  const [industriesOpen, setIndustriesOpen] = useState(false);
+  const [subIndustriesOpen, setSubIndustriesOpen] = useState(false);
+  const [jobTitle, setJobTitle] = useState("");
+  const [jobTitleOpen, setJobTitleOpen] = useState(false);
+  const [geoLevel, setGeoLevel] = useState<GeographyLevel>("global");
+  const [selectedLocations, setSelectedLocations] = useState<Location[]>([]);
+  const [locationSearchOpen, setLocationSearchOpen] = useState(false);
 
   // Sample data - you can expand these based on your needs
   const industries = [
@@ -66,7 +69,7 @@ export default function AdvertiserOnboardingPage() {
     { value: "education", label: "Education" },
     { value: "healthcare", label: "Healthcare" },
     { value: "legal", label: "Legal" },
-  ]
+  ];
 
   const subIndustries: { [key: string]: { value: string; label: string }[] } = {
     "home-services": [
@@ -81,7 +84,7 @@ export default function AdvertiserOnboardingPage() {
       { value: "life", label: "Life Insurance" },
       { value: "health", label: "Health Insurance" },
     ],
-  }
+  };
 
   const leadPreferencesList = [
     { value: "data-leads", label: "Data Leads" },
@@ -89,7 +92,7 @@ export default function AdvertiserOnboardingPage() {
     { value: "live-transfers", label: "Live Transfers" },
     { value: "form-fills", label: "Form Fills" },
     { value: "appointments", label: "Appointments" },
-  ]
+  ];
 
   const geographiesList = [
     { value: "nationwide", label: "Nationwide" },
@@ -99,7 +102,7 @@ export default function AdvertiserOnboardingPage() {
     { value: "southwest", label: "Southwest" },
     { value: "west", label: "West Coast" },
     { value: "canada", label: "Canada" },
-  ]
+  ];
 
   const commonJobTitles = [
     { value: "marketing-manager", label: "Marketing Manager" },
@@ -117,7 +120,7 @@ export default function AdvertiserOnboardingPage() {
     { value: "demand-generation", label: "Demand Generation Manager" },
     { value: "performance-marketing", label: "Performance Marketing Manager" },
     { value: "advertising-manager", label: "Advertising Manager" },
-  ]
+  ];
 
   const sampleLocations: Location[] = [
     // Countries
@@ -161,41 +164,41 @@ export default function AdvertiserOnboardingPage() {
       label: "94105 - San Francisco",
       parentId: "us-ca-sf",
     },
-  ]
+  ];
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+    e.preventDefault();
     if (step < 5) {
-      setStep(step + 1)
-      return
+      setStep(step + 1);
+      return;
     }
-    setIsLoading(true)
+    setIsLoading(true);
     // TODO: Submit onboarding data
-    router.push("/dashboard")
-  }
+    router.push("/dashboard");
+  };
 
   const getStepTitle = (currentStep: number) => {
     switch (currentStep) {
       case 1:
-        return "Tell us about yourself"
+        return "Tell us about yourself";
       case 2:
-        return "Tell us about your business"
+        return "Tell us about your business";
       case 3:
-        return "What industries are you targeting?"
+        return "What industries are you targeting?";
       case 4:
-        return "Lead preferences"
+        return "Lead preferences";
       case 5:
-        return "Campaign details"
+        return "Campaign details";
       default:
-        return ""
+        return "";
     }
-  }
+  };
 
   return (
-    <div className='relative flex min-h-screen w-screen flex-col items-center justify-center px-4 overflow-hidden'>
+    <div className="relative flex min-h-screen w-screen flex-col items-center justify-center px-4 overflow-hidden">
       {/* Background Graph SVG */}
       <motion.div
-        className='absolute inset-0 z-0 opacity-20'
+        className="absolute inset-0 z-0 opacity-20"
         initial={{ opacity: 0 }}
         animate={{ opacity: 0.2 }}
         transition={{ duration: 1 }}
@@ -208,64 +211,64 @@ export default function AdvertiserOnboardingPage() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className='relative z-10 mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[450px]'
+        className="relative z-10 mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[450px]"
       >
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.2, duration: 0.5 }}
-          className='flex flex-col space-y-2 text-center'
+          className="flex flex-col space-y-2 text-center"
         >
-          <h1 className='gradient-heading text-3xl font-bold tracking-tight'>
+          <h1 className="gradient-heading text-3xl font-bold tracking-tight">
             Complete Your Profile
           </h1>
-          <p className='text-sm text-muted-foreground'>{getStepTitle(step)}</p>
+          <p className="text-sm text-muted-foreground">{getStepTitle(step)}</p>
         </motion.div>
 
-        <Card className='p-6'>
-          <form onSubmit={handleSubmit} className='space-y-6'>
+        <Card className="p-6">
+          <form onSubmit={handleSubmit} className="space-y-6">
             {step === 1 ? (
-              <div className='space-y-4'>
-                <div className='grid grid-cols-2 gap-4'>
-                  <div className='space-y-2'>
-                    <Label htmlFor='firstName'>First Name</Label>
+              <div className="space-y-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="firstName">First Name</Label>
                     <Input
-                      id='firstName'
+                      id="firstName"
                       required
-                      className='rounded-lg'
-                      placeholder='John'
+                      className="rounded-lg"
+                      placeholder="John"
                     />
                   </div>
-                  <div className='space-y-2'>
-                    <Label htmlFor='lastName'>Last Name</Label>
+                  <div className="space-y-2">
+                    <Label htmlFor="lastName">Last Name</Label>
                     <Input
-                      id='lastName'
+                      id="lastName"
                       required
-                      className='rounded-lg'
-                      placeholder='Doe'
+                      className="rounded-lg"
+                      placeholder="Doe"
                     />
                   </div>
                 </div>
-                <div className='space-y-2'>
-                  <Label htmlFor='phone'>Phone Number</Label>
+                <div className="space-y-2">
+                  <Label htmlFor="phone">Phone Number</Label>
                   <Input
-                    id='phone'
-                    type='tel'
-                    className='rounded-lg'
-                    placeholder='+1 (555) 000-0000'
+                    id="phone"
+                    type="tel"
+                    className="rounded-lg"
+                    placeholder="+1 (555) 000-0000"
                   />
                 </div>
-                <div className='space-y-2'>
-                  <Label htmlFor='title'>Job Title</Label>
+                <div className="space-y-2">
+                  <Label htmlFor="title">Job Title</Label>
                   <Popover open={jobTitleOpen} onOpenChange={setJobTitleOpen}>
                     <PopoverTrigger asChild>
                       <Button
-                        variant='outline'
-                        role='combobox'
+                        variant="outline"
+                        role="combobox"
                         aria-expanded={jobTitleOpen}
-                        className='w-full justify-start text-left font-normal'
+                        className="w-full justify-start text-left font-normal"
                       >
-                        <span className='text-muted-foreground'>
+                        <span className="text-muted-foreground">
                           {jobTitle
                             ? commonJobTitles.find(
                                 (title) => title.value === jobTitle
@@ -274,24 +277,24 @@ export default function AdvertiserOnboardingPage() {
                         </span>
                       </Button>
                     </PopoverTrigger>
-                    <PopoverContent className='p-0 w-[400px]' align='start'>
+                    <PopoverContent className="p-0 w-[400px]" align="start">
                       <Command>
-                        <CommandInput placeholder='Search job title...' />
+                        <CommandInput placeholder="Search job title..." />
                         <CommandList>
                           <CommandEmpty>
-                            <div className='p-2 text-sm text-muted-foreground'>
+                            <div className="p-2 text-sm text-muted-foreground">
                               No matching job title found. Type to enter a
                               custom title.
                               <Button
-                                variant='secondary'
-                                className='w-full mt-2'
+                                variant="secondary"
+                                className="w-full mt-2"
                                 onClick={() => {
                                   const input = document.querySelector(
                                     "[cmdk-input]"
-                                  ) as HTMLInputElement
+                                  ) as HTMLInputElement;
                                   if (input) {
-                                    setJobTitle(input.value)
-                                    setJobTitleOpen(false)
+                                    setJobTitle(input.value);
+                                    setJobTitleOpen(false);
                                   }
                                 }}
                               >
@@ -299,20 +302,20 @@ export default function AdvertiserOnboardingPage() {
                               </Button>
                             </div>
                           </CommandEmpty>
-                          <CommandGroup heading='Common Job Titles'>
+                          <CommandGroup heading="Common Job Titles">
                             {commonJobTitles.map((title) => (
                               <CommandItem
                                 key={title.value}
                                 value={title.value}
                                 onSelect={(value) => {
-                                  setJobTitle(value)
-                                  setJobTitleOpen(false)
+                                  setJobTitle(value);
+                                  setJobTitleOpen(false);
                                 }}
                               >
-                                <div className='flex items-center justify-between w-full'>
+                                <div className="flex items-center justify-between w-full">
                                   {title.label}
                                   {jobTitle === title.value && (
-                                    <Check className='h-4 w-4 text-primary' />
+                                    <Check className="h-4 w-4 text-primary" />
                                   )}
                                 </div>
                               </CommandItem>
@@ -325,18 +328,18 @@ export default function AdvertiserOnboardingPage() {
                 </div>
               </div>
             ) : step === 2 ? (
-              <div className='space-y-4'>
-                <div className='flex items-center space-x-2'>
+              <div className="space-y-4">
+                <div className="flex items-center space-x-2">
                   <Checkbox
-                    id='hasCompany'
+                    id="hasCompany"
                     checked={hasCompany}
                     onCheckedChange={(checked) =>
                       setHasCompany(checked as boolean)
                     }
                   />
                   <Label
-                    htmlFor='hasCompany'
-                    className='text-sm text-muted-foreground'
+                    htmlFor="hasCompany"
+                    className="text-sm text-muted-foreground"
                   >
                     I'm representing a company
                   </Label>
@@ -347,41 +350,41 @@ export default function AdvertiserOnboardingPage() {
                     initial={{ opacity: 0, height: 0 }}
                     animate={{ opacity: 1, height: "auto" }}
                     exit={{ opacity: 0, height: 0 }}
-                    className='space-y-4'
+                    className="space-y-4"
                   >
-                    <div className='space-y-2'>
-                      <Label htmlFor='companyName'>Company Name</Label>
+                    <div className="space-y-2">
+                      <Label htmlFor="companyName">Company Name</Label>
                       <Input
-                        id='companyName'
-                        className='rounded-lg'
-                        placeholder='Acme Inc.'
+                        id="companyName"
+                        className="rounded-lg"
+                        placeholder="Acme Inc."
                       />
                     </div>
-                    <div className='space-y-2'>
-                      <Label htmlFor='website'>Company Website</Label>
+                    <div className="space-y-2">
+                      <Label htmlFor="website">Company Website</Label>
                       <Input
-                        id='website'
-                        type='url'
-                        className='rounded-lg'
-                        placeholder='https://example.com'
+                        id="website"
+                        type="url"
+                        className="rounded-lg"
+                        placeholder="https://example.com"
                       />
                     </div>
-                    <div className='space-y-2'>
-                      <Label htmlFor='companySize'>Company Size</Label>
+                    <div className="space-y-2">
+                      <Label htmlFor="companySize">Company Size</Label>
                       <Select>
                         <SelectTrigger>
-                          <SelectValue placeholder='Select company size' />
+                          <SelectValue placeholder="Select company size" />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value='1-10'>1-10 employees</SelectItem>
-                          <SelectItem value='11-50'>11-50 employees</SelectItem>
-                          <SelectItem value='51-200'>
+                          <SelectItem value="1-10">1-10 employees</SelectItem>
+                          <SelectItem value="11-50">11-50 employees</SelectItem>
+                          <SelectItem value="51-200">
                             51-200 employees
                           </SelectItem>
-                          <SelectItem value='201-500'>
+                          <SelectItem value="201-500">
                             201-500 employees
                           </SelectItem>
-                          <SelectItem value='500+'>500+ employees</SelectItem>
+                          <SelectItem value="500+">500+ employees</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
@@ -389,9 +392,9 @@ export default function AdvertiserOnboardingPage() {
                 )}
               </div>
             ) : step === 3 ? (
-              <div className='space-y-6'>
-                <div className='space-y-4'>
-                  <div className='space-y-2'>
+              <div className="space-y-6">
+                <div className="space-y-4">
+                  <div className="space-y-2">
                     <Label>Industries You Want to Target</Label>
                     <Popover
                       open={industriesOpen}
@@ -399,20 +402,20 @@ export default function AdvertiserOnboardingPage() {
                     >
                       <PopoverTrigger asChild>
                         <Button
-                          variant='outline'
-                          role='combobox'
-                          className='w-full justify-start text-left font-normal'
+                          variant="outline"
+                          role="combobox"
+                          className="w-full justify-start text-left font-normal"
                         >
-                          <span className='text-muted-foreground'>
+                          <span className="text-muted-foreground">
                             {targetIndustries.length > 0
                               ? `${targetIndustries.length} selected`
                               : "Search industries..."}
                           </span>
                         </Button>
                       </PopoverTrigger>
-                      <PopoverContent className='p-0 w-[400px]' align='start'>
+                      <PopoverContent className="p-0 w-[400px]" align="start">
                         <Command shouldFilter={true}>
-                          <CommandInput placeholder='Search industries...' />
+                          <CommandInput placeholder="Search industries..." />
                           <CommandList>
                             <CommandEmpty>No industry found.</CommandEmpty>
                             <CommandGroup>
@@ -426,17 +429,17 @@ export default function AdvertiserOnboardingPage() {
                                       setTargetIndustries([
                                         ...targetIndustries,
                                         industry.value,
-                                      ])
+                                      ]);
                                     }
-                                    setIndustriesOpen(false)
+                                    setIndustriesOpen(false);
                                   }}
                                 >
-                                  <div className='flex items-center justify-between w-full'>
+                                  <div className="flex items-center justify-between w-full">
                                     {industry.label}
                                     {targetIndustries.includes(
                                       industry.value
                                     ) && (
-                                      <Check className='h-4 w-4 text-primary' />
+                                      <Check className="h-4 w-4 text-primary" />
                                     )}
                                   </div>
                                 </CommandItem>
@@ -448,42 +451,42 @@ export default function AdvertiserOnboardingPage() {
                     </Popover>
 
                     {targetIndustries.length > 0 && (
-                      <div className='flex flex-wrap gap-2 mt-2'>
+                      <div className="flex flex-wrap gap-2 mt-2">
                         {targetIndustries.map((industryValue) => {
                           const industry = industries.find(
                             (i) => i.value === industryValue
-                          )
+                          );
                           return (
                             <Badge
                               key={industryValue}
-                              variant='secondary'
-                              className='px-3 py-1'
+                              variant="secondary"
+                              className="px-3 py-1"
                             >
                               {industry?.label}
                               <button
-                                type='button'
-                                className='ml-2 ring-offset-background rounded-full outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2'
+                                type="button"
+                                className="ml-2 ring-offset-background rounded-full outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
                                 onClick={(e) => {
-                                  e.preventDefault()
+                                  e.preventDefault();
                                   setTargetIndustries(
                                     targetIndustries.filter(
                                       (i) => i !== industryValue
                                     )
-                                  )
+                                  );
                                 }}
                               >
-                                <X className='h-3 w-3' />
-                                <span className='sr-only'>Remove</span>
+                                <X className="h-3 w-3" />
+                                <span className="sr-only">Remove</span>
                               </button>
                             </Badge>
-                          )
+                          );
                         })}
                       </div>
                     )}
                   </div>
 
                   {targetIndustries.length > 0 && (
-                    <div className='space-y-2'>
+                    <div className="space-y-2">
                       <Label>Sub-Industries</Label>
                       <Popover
                         open={subIndustriesOpen}
@@ -491,20 +494,20 @@ export default function AdvertiserOnboardingPage() {
                       >
                         <PopoverTrigger asChild>
                           <Button
-                            variant='outline'
-                            role='combobox'
-                            className='w-full justify-start text-left font-normal'
+                            variant="outline"
+                            role="combobox"
+                            className="w-full justify-start text-left font-normal"
                           >
-                            <span className='text-muted-foreground'>
+                            <span className="text-muted-foreground">
                               {targetSubIndustries.length > 0
                                 ? `${targetSubIndustries.length} selected`
                                 : "Search sub-industries..."}
                             </span>
                           </Button>
                         </PopoverTrigger>
-                        <PopoverContent className='p-0 w-[400px]' align='start'>
+                        <PopoverContent className="p-0 w-[400px]" align="start">
                           <Command shouldFilter={true}>
-                            <CommandInput placeholder='Search sub-industries...' />
+                            <CommandInput placeholder="Search sub-industries..." />
                             <CommandList>
                               <CommandEmpty>
                                 No sub-industry found.
@@ -530,17 +533,17 @@ export default function AdvertiserOnboardingPage() {
                                             setTargetSubIndustries([
                                               ...targetSubIndustries,
                                               subIndustry.value,
-                                            ])
+                                            ]);
                                           }
-                                          setSubIndustriesOpen(false)
+                                          setSubIndustriesOpen(false);
                                         }}
                                       >
-                                        <div className='flex items-center justify-between w-full'>
+                                        <div className="flex items-center justify-between w-full">
                                           {subIndustry.label}
                                           {targetSubIndustries.includes(
                                             subIndustry.value
                                           ) && (
-                                            <Check className='h-4 w-4 text-primary' />
+                                            <Check className="h-4 w-4 text-primary" />
                                           )}
                                         </div>
                                       </CommandItem>
@@ -554,35 +557,35 @@ export default function AdvertiserOnboardingPage() {
                       </Popover>
 
                       {targetSubIndustries.length > 0 && (
-                        <div className='flex flex-wrap gap-2 mt-2'>
+                        <div className="flex flex-wrap gap-2 mt-2">
                           {targetSubIndustries.map((subIndustryValue) => {
                             const subIndustry = Object.values(subIndustries)
                               .flat()
-                              .find((i) => i.value === subIndustryValue)
+                              .find((i) => i.value === subIndustryValue);
                             return (
                               <Badge
                                 key={subIndustryValue}
-                                variant='secondary'
-                                className='px-3 py-1'
+                                variant="secondary"
+                                className="px-3 py-1"
                               >
                                 {subIndustry?.label}
                                 <button
-                                  type='button'
-                                  className='ml-2 ring-offset-background rounded-full outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2'
+                                  type="button"
+                                  className="ml-2 ring-offset-background rounded-full outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
                                   onClick={(e) => {
-                                    e.preventDefault()
+                                    e.preventDefault();
                                     setTargetSubIndustries(
                                       targetSubIndustries.filter(
                                         (i) => i !== subIndustryValue
                                       )
-                                    )
+                                    );
                                   }}
                                 >
-                                  <X className='h-3 w-3' />
-                                  <span className='sr-only'>Remove</span>
+                                  <X className="h-3 w-3" />
+                                  <span className="sr-only">Remove</span>
                                 </button>
                               </Badge>
-                            )
+                            );
                           })}
                         </div>
                       )}
@@ -591,11 +594,11 @@ export default function AdvertiserOnboardingPage() {
                 </div>
               </div>
             ) : step === 4 ? (
-              <div className='space-y-6'>
-                <div className='space-y-4'>
-                  <div className='space-y-2'>
+              <div className="space-y-6">
+                <div className="space-y-4">
+                  <div className="space-y-2">
                     <Label>Preferred Lead Types</Label>
-                    <div className='flex flex-wrap gap-2'>
+                    <div className="flex flex-wrap gap-2">
                       {leadPreferencesList.map((type) => (
                         <Badge
                           key={type.value}
@@ -604,17 +607,17 @@ export default function AdvertiserOnboardingPage() {
                               ? "default"
                               : "outline"
                           }
-                          className='cursor-pointer'
+                          className="cursor-pointer"
                           onClick={() => {
                             if (leadPreferences.includes(type.value)) {
                               setLeadPreferences(
                                 leadPreferences.filter((t) => t !== type.value)
-                              )
+                              );
                             } else {
                               setLeadPreferences([
                                 ...leadPreferences,
                                 type.value,
-                              ])
+                              ]);
                             }
                           }}
                         >
@@ -624,29 +627,29 @@ export default function AdvertiserOnboardingPage() {
                     </div>
                   </div>
 
-                  <div className='space-y-4'>
-                    <div className='space-y-2'>
+                  <div className="space-y-4">
+                    <div className="space-y-2">
                       <Label>Geographic Targeting</Label>
                       <Select
                         value={geoLevel}
                         onValueChange={(value) => {
-                          setGeoLevel(value as GeographyLevel)
-                          setSelectedLocations([])
+                          setGeoLevel(value as GeographyLevel);
+                          setSelectedLocations([]);
                         }}
                       >
                         <SelectTrigger>
-                          <SelectValue placeholder='Select targeting level' />
+                          <SelectValue placeholder="Select targeting level" />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value='global'>
+                          <SelectItem value="global">
                             Global (All Locations)
                           </SelectItem>
-                          <SelectItem value='country'>Country Level</SelectItem>
-                          <SelectItem value='state'>
+                          <SelectItem value="country">Country Level</SelectItem>
+                          <SelectItem value="state">
                             State/Province Level
                           </SelectItem>
-                          <SelectItem value='city'>City Level</SelectItem>
-                          <SelectItem value='postal'>
+                          <SelectItem value="city">City Level</SelectItem>
+                          <SelectItem value="postal">
                             Postal Code Level
                           </SelectItem>
                         </SelectContent>
@@ -654,7 +657,7 @@ export default function AdvertiserOnboardingPage() {
                     </div>
 
                     {geoLevel !== "global" && (
-                      <div className='space-y-2'>
+                      <div className="space-y-2">
                         <Label>Add Locations</Label>
                         <Popover
                           open={locationSearchOpen}
@@ -662,11 +665,11 @@ export default function AdvertiserOnboardingPage() {
                         >
                           <PopoverTrigger asChild>
                             <Button
-                              variant='outline'
-                              role='combobox'
-                              className='w-full justify-start text-left font-normal'
+                              variant="outline"
+                              role="combobox"
+                              className="w-full justify-start text-left font-normal"
                             >
-                              <span className='text-muted-foreground'>
+                              <span className="text-muted-foreground">
                                 {selectedLocations.length > 0
                                   ? `${selectedLocations.length} locations selected`
                                   : "Search locations..."}
@@ -674,8 +677,8 @@ export default function AdvertiserOnboardingPage() {
                             </Button>
                           </PopoverTrigger>
                           <PopoverContent
-                            className='p-0 w-[400px]'
-                            align='start'
+                            className="p-0 w-[400px]"
+                            align="start"
                           >
                             <Command shouldFilter={true}>
                               <CommandInput
@@ -698,17 +701,17 @@ export default function AdvertiserOnboardingPage() {
                                             setSelectedLocations([
                                               ...selectedLocations,
                                               location,
-                                            ])
+                                            ]);
                                           }
-                                          setLocationSearchOpen(false)
+                                          setLocationSearchOpen(false);
                                         }}
                                       >
-                                        <div className='flex items-center justify-between w-full'>
+                                        <div className="flex items-center justify-between w-full">
                                           {location.label}
                                           {selectedLocations.some(
                                             (l) => l.id === location.id
                                           ) && (
-                                            <Check className='h-4 w-4 text-primary' />
+                                            <Check className="h-4 w-4 text-primary" />
                                           )}
                                         </div>
                                       </CommandItem>
@@ -720,30 +723,30 @@ export default function AdvertiserOnboardingPage() {
                         </Popover>
 
                         {selectedLocations.length > 0 && (
-                          <div className='mt-4'>
+                          <div className="mt-4">
                             <Label>Selected Locations</Label>
-                            <div className='flex flex-wrap gap-2 mt-2'>
+                            <div className="flex flex-wrap gap-2 mt-2">
                               {selectedLocations.map((location) => (
                                 <Badge
                                   key={location.id}
-                                  variant='secondary'
-                                  className='px-3 py-1'
+                                  variant="secondary"
+                                  className="px-3 py-1"
                                 >
                                   {location.label}
                                   <button
-                                    type='button'
-                                    className='ml-2 ring-offset-background rounded-full outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2'
+                                    type="button"
+                                    className="ml-2 ring-offset-background rounded-full outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
                                     onClick={(e) => {
-                                      e.preventDefault()
+                                      e.preventDefault();
                                       setSelectedLocations(
                                         selectedLocations.filter(
                                           (l) => l.id !== location.id
                                         )
-                                      )
+                                      );
                                     }}
                                   >
-                                    <X className='h-3 w-3' />
-                                    <span className='sr-only'>Remove</span>
+                                    <X className="h-3 w-3" />
+                                    <span className="sr-only">Remove</span>
                                   </button>
                                 </Badge>
                               ))}
@@ -752,16 +755,16 @@ export default function AdvertiserOnboardingPage() {
                         )}
 
                         {geoLevel === "postal" && (
-                          <div className='mt-4 p-3 bg-muted rounded-lg'>
-                            <div className='flex items-start space-x-2'>
-                              <div className='text-sm'>
-                                <p className='font-medium'>Bulk Upload</p>
-                                <p className='text-muted-foreground'>
+                          <div className="mt-4 p-3 bg-muted rounded-lg">
+                            <div className="flex items-start space-x-2">
+                              <div className="text-sm">
+                                <p className="font-medium">Bulk Upload</p>
+                                <p className="text-muted-foreground">
                                   Have multiple postal codes? Upload a CSV file
                                   with your postal codes.
                                 </p>
                               </div>
-                              <Button variant='outline' size='sm'>
+                              <Button variant="outline" size="sm">
                                 Upload CSV
                               </Button>
                             </div>
@@ -771,8 +774,8 @@ export default function AdvertiserOnboardingPage() {
                     )}
 
                     {geoLevel !== "global" && (
-                      <div className='p-3 bg-muted rounded-lg'>
-                        <p className='text-sm text-muted-foreground'>
+                      <div className="p-3 bg-muted rounded-lg">
+                        <p className="text-sm text-muted-foreground">
                           {geoLevel === "country" &&
                             "Select specific countries you want to target"}
                           {geoLevel === "state" &&
@@ -788,60 +791,60 @@ export default function AdvertiserOnboardingPage() {
                 </div>
               </div>
             ) : (
-              <div className='space-y-6'>
-                <div className='space-y-4'>
-                  <div className='space-y-2'>
+              <div className="space-y-6">
+                <div className="space-y-4">
+                  <div className="space-y-2">
                     <Label>Monthly Budget Range</Label>
                     <Select>
                       <SelectTrigger>
-                        <SelectValue placeholder='Select your monthly budget' />
+                        <SelectValue placeholder="Select your monthly budget" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value='1-5k'>$1,000 - $5,000</SelectItem>
-                        <SelectItem value='5-10k'>$5,000 - $10,000</SelectItem>
-                        <SelectItem value='10-25k'>
+                        <SelectItem value="1-5k">$1,000 - $5,000</SelectItem>
+                        <SelectItem value="5-10k">$5,000 - $10,000</SelectItem>
+                        <SelectItem value="10-25k">
                           $10,000 - $25,000
                         </SelectItem>
-                        <SelectItem value='25-50k'>
+                        <SelectItem value="25-50k">
                           $25,000 - $50,000
                         </SelectItem>
-                        <SelectItem value='50k+'>$50,000+</SelectItem>
+                        <SelectItem value="50k+">$50,000+</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
 
-                  <div className='space-y-2'>
+                  <div className="space-y-2">
                     <Label>Campaign Goals</Label>
                     <textarea
-                      className='w-full rounded-lg border bg-background p-2 h-24 focus:ring-1 focus:ring-primary'
-                      placeholder='Tell us about your campaign goals and any specific requirements...'
+                      className="w-full rounded-lg border bg-background p-2 h-24 focus:ring-1 focus:ring-primary"
+                      placeholder="Tell us about your campaign goals and any specific requirements..."
                     />
                   </div>
                 </div>
               </div>
             )}
 
-            <div className='flex gap-3'>
+            <div className="flex gap-3">
               {step > 1 && (
                 <Button
-                  type='button'
-                  variant='outline'
-                  className='rounded-lg flex-1'
+                  type="button"
+                  variant="outline"
+                  className="rounded-lg flex-1"
                   onClick={() => setStep(step - 1)}
                 >
                   Back
                 </Button>
               )}
               <Button
-                type='submit'
-                className='rounded-lg flex-1'
+                type="submit"
+                className="rounded-lg flex-1"
                 disabled={isLoading}
               >
                 {step < 5
                   ? "Continue"
                   : isLoading
-                  ? "Completing Setup..."
-                  : "Complete Setup"}
+                    ? "Completing Setup..."
+                    : "Complete Setup"}
               </Button>
             </div>
           </form>
@@ -851,7 +854,7 @@ export default function AdvertiserOnboardingPage() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.4, duration: 0.5 }}
-          className='flex justify-center space-x-2'
+          className="flex justify-center space-x-2"
         >
           {[1, 2, 3, 4, 5].map((i) => (
             <div
@@ -864,5 +867,5 @@ export default function AdvertiserOnboardingPage() {
         </motion.div>
       </motion.div>
     </div>
-  )
+  );
 }

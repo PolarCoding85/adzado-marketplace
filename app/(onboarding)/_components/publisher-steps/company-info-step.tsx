@@ -1,71 +1,107 @@
 // app/(onboarding)/_components/publisher-steps/company-info-step.tsx
 
+import { useFormContext } from "react-hook-form";
+import { motion } from "framer-motion";
+import { FormField, FormItem, FormLabel, FormControl, FormMessage, FormDescription } from "@/components/ui/form";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
-import { PublisherStepProps } from "@/types/publisher";
-import { motion } from "framer-motion";
+import type { PublisherOnboardingSchema } from "@/schemas/publisher-validation";
+import { FormattedTaxIdInput } from "@/components/shared/formatted-ein-input";
 
-export function CompanyInfoStep({ data, updateFields }: PublisherStepProps) {
+export function CompanyInfoStep() {
+  const form = useFormContext<PublisherOnboardingSchema>();
+  const hasCompany = form.watch("hasCompany");
+  const { formState: { errors } } = form;
+
   return (
     <div className="space-y-4">
-      <div className="flex items-center space-x-2">
-        <Checkbox
-          id="hasCompany"
-          checked={data.hasCompany}
-          onCheckedChange={(checked) =>
-            updateFields({ hasCompany: checked as boolean })
-          }
-        />
-        <Label
-          htmlFor="hasCompany"
-          className="text-sm text-muted-foreground"
-        >
-          I have a registered business
-        </Label>
-      </div>
+      <FormField
+        control={form.control}
+        name="hasCompany"
+        render={({ field }) => (
+          <FormItem className="flex flex-row items-center space-x-2 space-y-0">
+            <FormControl>
+              <Checkbox
+                checked={field.value}
+                onCheckedChange={field.onChange}
+              />
+            </FormControl>
+            <div className="space-y-1 leading-none">
+              <FormLabel className="text-sm text-muted-foreground">
+                I have a registered business
+              </FormLabel>
+            </div>
+          </FormItem>
+        )}
+      />
 
-      {data.hasCompany && (
+      {hasCompany && (
         <motion.div
           initial={{ opacity: 0, height: 0 }}
           animate={{ opacity: 1, height: "auto" }}
           exit={{ opacity: 0, height: 0 }}
           className="space-y-4"
         >
-          <div className="space-y-2">
-            <Label htmlFor="companyName">Company Name</Label>
-            <Input
-              id="companyName"
-              value={data.companyName}
-              onChange={(e) => updateFields({ companyName: e.target.value })}
-              className="rounded-lg"
-              placeholder="Acme Inc."
-            />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="taxId">Tax ID / EIN</Label>
-            <Input
-              id="taxId"
-              value={data.taxId}
-              onChange={(e) => updateFields({ taxId: e.target.value })}
-              className="rounded-lg"
-              placeholder="XX-XXXXXXX"
-            />
-          </div>
+          <FormField
+            control={form.control}
+            name="companyName"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Company Name</FormLabel>
+                <FormControl>
+                  <Input
+                    {...field}
+                    value={field.value || ""}
+                    className="rounded-lg"
+                    placeholder="Acme Inc."
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="taxId"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Tax ID / EIN</FormLabel>
+                <FormControl>
+                  <FormattedTaxIdInput
+                    {...field}
+                    value={field.value || ""}
+                    className="rounded-lg"
+                    placeholder="XX-XXXXXXX"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
         </motion.div>
       )}
 
-      <div className="space-y-2">
-        <Label htmlFor="website">Website (Optional)</Label>
-        <Input
-          id="website"
-          type="url"
-          value={data.website}
-          onChange={(e) => updateFields({ website: e.target.value })}
-          className="rounded-lg"
-          placeholder="https://example.com"
-        />
-      </div>
+      <FormField
+        control={form.control}
+        name="companyWebsite"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Company Website (Optional)</FormLabel>
+            <FormControl>
+              <Input
+                {...field}
+                value={field.value || ""}
+                type="url"
+                className="rounded-lg"
+                placeholder="https://example.com"
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
     </div>
   );
 }

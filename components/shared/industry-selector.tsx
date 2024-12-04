@@ -20,16 +20,38 @@ import {
 } from "@/components/ui/popover";
 import { INDUSTRIES, SUB_INDUSTRIES } from "@/constants/advertiser";
 import { IndustryType, SubIndustryItem } from "@/types/advertiser";
-import { IndustrySelectProps } from "@/types/advertiser";
+
+interface IndustrySelectProps {
+  selectedIndustries: string[];
+  onIndustryChange: (industries: string[]) => void;
+  selectedSubIndustries: string[];
+  onSubIndustryChange: (subIndustries: string[]) => void;
+  error?: boolean;
+}
 
 export function IndustrySelector({
   selectedIndustries,
   onIndustryChange,
   selectedSubIndustries,
   onSubIndustryChange,
+  error
 }: IndustrySelectProps) {
   const [industriesOpen, setIndustriesOpen] = useState(false);
   const [subIndustriesOpen, setSubIndustriesOpen] = useState(false);
+
+  // When an industry is removed, also remove its sub-industries
+  const handleIndustryRemove = (industryValue: string) => {
+    const newIndustries = selectedIndustries.filter(i => i !== industryValue);
+    onIndustryChange(newIndustries);
+
+    // Remove sub-industries that belong to the removed industry
+    const industrySubIndustries = SUB_INDUSTRIES[industryValue as IndustryType] || [];
+    const subIndustriesToRemove = industrySubIndustries.map(si => si.value);
+    const newSubIndustries = selectedSubIndustries.filter(
+      si => !subIndustriesToRemove.includes(si)
+    );
+    onSubIndustryChange(newSubIndustries);
+  };
 
   return (
     <div className="space-y-4">
@@ -40,7 +62,9 @@ export function IndustrySelector({
             <Button
               variant="outline"
               role="combobox"
-              className="w-full justify-start text-left font-normal"
+              className={`w-full justify-start text-left font-normal ${
+                error ? "border-destructive" : ""
+              }`}
             >
               <span className="text-muted-foreground">
                 {selectedIndustries.length > 0
@@ -93,12 +117,7 @@ export function IndustrySelector({
                   <button
                     type="button"
                     className="ml-2 ring-offset-background rounded-full outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      onIndustryChange(
-                        selectedIndustries.filter((i) => i !== industryValue)
-                      );
-                    }}
+                    onClick={() => handleIndustryRemove(industryValue)}
                   >
                     <X className="h-3 w-3" />
                     <span className="sr-only">Remove</span>
@@ -139,27 +158,29 @@ export function IndustrySelector({
                         INDUSTRIES.find((i) => i.value === industry)?.label || ""
                       }
                     >
-                      {(SUB_INDUSTRIES[industry as IndustryType] || []).map((subIndustry: SubIndustryItem) => (
-                        <CommandItem
-                          key={subIndustry.value}
-                          onSelect={() => {
-                            if (!selectedSubIndustries.includes(subIndustry.value)) {
-                              onSubIndustryChange([
-                                ...selectedSubIndustries,
-                                subIndustry.value,
-                              ]);
-                            }
-                            setSubIndustriesOpen(false);
-                          }}
-                        >
-                          <div className="flex items-center justify-between w-full">
-                            {subIndustry.label}
-                            {selectedSubIndustries.includes(subIndustry.value) && (
-                              <Check className="h-4 w-4 text-primary" />
-                            )}
-                          </div>
-                        </CommandItem>
-                      ))}
+                      {(SUB_INDUSTRIES[industry as IndustryType] || []).map(
+                        (subIndustry: SubIndustryItem) => (
+                          <CommandItem
+                            key={subIndustry.value}
+                            onSelect={() => {
+                              if (!selectedSubIndustries.includes(subIndustry.value)) {
+                                onSubIndustryChange([
+                                  ...selectedSubIndustries,
+                                  subIndustry.value,
+                                ]);
+                              }
+                              setSubIndustriesOpen(false);
+                            }}
+                          >
+                            <div className="flex items-center justify-between w-full">
+                              {subIndustry.label}
+                              {selectedSubIndustries.includes(subIndustry.value) && (
+                                <Check className="h-4 w-4 text-primary" />
+                              )}
+                            </div>
+                          </CommandItem>
+                        )
+                      )}
                     </CommandGroup>
                   ))}
                 </CommandList>
@@ -183,8 +204,7 @@ export function IndustrySelector({
                     <button
                       type="button"
                       className="ml-2 ring-offset-background rounded-full outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
-                      onClick={(e) => {
-                        e.preventDefault();
+                      onClick={() => {
                         onSubIndustryChange(
                           selectedSubIndustries.filter(
                             (i) => i !== subIndustryValue

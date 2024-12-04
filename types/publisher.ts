@@ -12,7 +12,7 @@ export type PublisherFormData = {
   hasCompany: boolean;
   companyName: string;
   taxId: string;
-  website: string;
+  companyWebsite: string;
 
   // Industry Selection
   industries: string[];

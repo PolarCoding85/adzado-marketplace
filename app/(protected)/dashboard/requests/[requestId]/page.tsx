@@ -33,7 +33,7 @@ interface ReviewRequest {
     name: string
     email: string
     phone: string
-    website: string
+    companyWebsite: string
     company: string
     joinDate: string
     status: "active" | "suspended"
@@ -88,7 +88,7 @@ const requestDetails: ReviewRequest = {
     name: "Premium Leads LLC",
     email: "contact@premiumleads.com",
     phone: "+1 (555) 123-4567",
-    website: "https://premiumleads.com",
+    companyWebsite: "https://premiumleads.com",
     company: "Premium Leads LLC",
     joinDate: "2023-06-15",
     status: "active",
@@ -452,12 +452,12 @@ export default function ReviewRequestPage() {
               <div className='flex items-center gap-2'>
                 <Globe className='h-4 w-4 text-muted-foreground' />
                 <a
-                  href={requestDetails.publisher.website}
+                  href={requestDetails.publisher.companyWebsite}
                   target='_blank'
                   rel='noopener noreferrer'
                   className='text-primary hover:underline'
                 >
-                  {requestDetails.publisher.website}
+                  {requestDetails.publisher.companyWebsite}
                 </a>
               </div>
             </div>

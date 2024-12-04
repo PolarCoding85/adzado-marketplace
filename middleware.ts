@@ -17,7 +17,7 @@ const routeConfig = {
       "/dashboard/offers/applications",
       "/dashboard/payouts",
       "/dashboard/settings",
-      "/publisher-onboarding",  // Added onboarding route
+      "/publisher-onboarding",
     ],
     redirect: "/dashboard/offers/publisher",
     onboarding: "/publisher-onboarding",
@@ -31,7 +31,7 @@ const routeConfig = {
       "/dashboard/company",
       "/dashboard/billing",
       "/dashboard/settings",
-      "/advertiser-onboarding",  // Added onboarding route
+      "/advertiser-onboarding",
     ],
     redirect: "/dashboard/offers",
     onboarding: "/advertiser-onboarding",

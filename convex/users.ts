@@ -206,7 +206,7 @@ export const savePublisherOnboarding = mutation({
     hasCompany: v.optional(v.boolean()),
     companyName: v.optional(v.string()),
     taxId: v.optional(v.string()),
-    website: v.optional(v.string()),
+    companyWebsite: v.optional(v.string()),
     industries: v.optional(v.array(v.string())),
     subIndustries: v.optional(v.array(v.string())),
     marketingMethods: v.optional(v.array(v.string())),

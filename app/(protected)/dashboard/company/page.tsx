@@ -128,7 +128,7 @@ function InviteTeamDialog() {
 export default function CompanyPage() {
   const [companyDetails, setCompanyDetails] = useState({
     name: "Acme Insurance Co.",
-    website: "https://acme-insurance.com",
+    companyWebsite: "https://acme-insurance.com",
     size: "51-200",
     industry: "Insurance",
     description: "Leading provider of insurance solutions.",
@@ -211,14 +211,14 @@ export default function CompanyPage() {
                   />
                 </div>
                 <div className='space-y-2'>
-                  <Label>Website</Label>
+                  <Label>Company Website</Label>
                   <Input
                     type='url'
-                    value={companyDetails.website}
+                    value={companyDetails.companyWebsite}
                     onChange={(e) =>
                       setCompanyDetails({
                         ...companyDetails,
-                        website: e.target.value,
+                        companyWebsite: e.target.value,
                       })
                     }
                   />

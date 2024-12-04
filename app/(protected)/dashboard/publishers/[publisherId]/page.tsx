@@ -73,7 +73,7 @@ const publisherDetails = {
   },
   company: {
     name: "Premium Leads LLC",
-    website: "https://premiumleads.com",
+    companyWebsite: "https://premiumleads.com",
     size: "11-50 employees",
     industries: ["Insurance", "Finance"],
   },
@@ -279,12 +279,12 @@ export default function PublisherDetailsPage() {
                 <div className='flex items-center gap-2'>
                   <Globe className='h-4 w-4 text-muted-foreground' />
                   <a
-                    href={publisherDetails.company.website}
+                    href={publisherDetails.company.companyWebsite}
                     target='_blank'
                     rel='noopener noreferrer'
                     className='text-primary hover:underline'
                   >
-                    {publisherDetails.company.website}
+                    {publisherDetails.company.companyWebsite}
                   </a>
                 </div>
               </div>

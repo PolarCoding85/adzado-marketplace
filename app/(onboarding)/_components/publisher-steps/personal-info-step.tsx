@@ -1,47 +1,77 @@
 // app/(onboarding)/_components/publisher-steps/personal-info-step.tsx
 
-import { Label } from "@/components/ui/label";
+import { useFormContext } from "react-hook-form";
+import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { PublisherStepProps } from "@/types/publisher";
+import type { PublisherOnboardingSchema } from "@/schemas/publisher-validation";
 
-export function PersonalInfoStep({ data, updateFields }: PublisherStepProps) {
+export function PersonalInfoStep() {
+  const form = useFormContext<PublisherOnboardingSchema>();
+  const { formState: { errors } } = form;
+
+  // Debug log to see form state
+  console.log("Form Errors:", errors);
+
   return (
     <div className="space-y-4">
       <div className="grid grid-cols-2 gap-4">
-        <div className="space-y-2">
-          <Label htmlFor="firstName">First Name</Label>
-          <Input
-            id="firstName"
-            required
-            value={data.firstName}
-            onChange={(e) => updateFields({ firstName: e.target.value })}
-            className="rounded-lg"
-            placeholder="John"
-          />
-        </div>
-        <div className="space-y-2">
-          <Label htmlFor="lastName">Last Name</Label>
-          <Input
-            id="lastName"
-            required
-            value={data.lastName}
-            onChange={(e) => updateFields({ lastName: e.target.value })}
-            className="rounded-lg"
-            placeholder="Doe"
-          />
-        </div>
-      </div>
-      <div className="space-y-2">
-        <Label htmlFor="phone">Phone Number</Label>
-        <Input
-          id="phone"
-          type="tel"
-          value={data.phoneNumber}
-          onChange={(e) => updateFields({ phoneNumber: e.target.value })}
-          className="rounded-lg"
-          placeholder="+1 (555) 000-0000"
+        <FormField
+          control={form.control}
+          name="firstName"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>First Name</FormLabel>
+              <FormControl>
+                <Input 
+                  {...field}
+                  className="rounded-lg"
+                  placeholder="John"
+                  required
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="lastName"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Last Name</FormLabel>
+              <FormControl>
+                <Input 
+                  {...field}
+                  className="rounded-lg"
+                  placeholder="Doe"
+                  required
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
         />
       </div>
+
+      <FormField
+        control={form.control}
+        name="phoneNumber"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Phone Number</FormLabel>
+            <FormControl>
+              <Input 
+                {...field}
+                type="tel"
+                className="rounded-lg"
+                placeholder="+1 (555) 000-0000"
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
     </div>
   );
 }

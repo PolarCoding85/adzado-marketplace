@@ -1,3 +1,5 @@
+// middleware.ts
+
 import { clerkMiddleware } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 import { ConvexHttpClient } from "convex/browser";
@@ -41,7 +43,8 @@ const publicRoutes = [
   "/auth",
   "/unauthorized",
   "/not-found",
-  "/sign-up/verify-email-address", // Add this to support email verification
+  "/sign-up/verify-email-address",
+  "/select-role",
 ];
 
 // Initialize Convex HTTP client
@@ -82,8 +85,8 @@ export default clerkMiddleware(async (auth, req) => {
   const onboardingComplete = userData?.onboardingComplete;
 
   // Handle users without a role
-  if (!role && userId && !path.startsWith("/onboarding")) {
-    return NextResponse.redirect(new URL("/unauthorized", req.url));
+  if (!role && userId && !path.startsWith("/select-role")) {
+    return NextResponse.redirect(new URL("/select-role", req.url));
   }
 
   // Handle onboarding routes

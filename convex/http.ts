@@ -21,23 +21,10 @@ http.route({
 
     switch (event.type) {
       case "user.created": {
-        // Get the role from first OAuth provider or from the selectedRole in publicMetadata
-        const role = event.data.public_metadata?.selectedRole as
-          | "publisher"
-          | "advertiser"
-          | undefined;
-
-        // Add debugging
-        console.log(
-          "Creating user with role:",
-          role,
-          "from metadata:",
-          event.data.public_metadata
-        );
-
+        // Create the user without a role - they'll select it later
         await ctx.runMutation(internal.users.upsertFromClerk, {
           data: event.data,
-          role: role ?? "publisher", // Only default to publisher if role is undefined
+          role: undefined, // Let them select role on the select-role page
         });
         break;
       }

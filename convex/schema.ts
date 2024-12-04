@@ -15,7 +15,7 @@ export default defineSchema({
     phoneNumber: v.optional(v.string()),
 
     // Role and status
-    role: v.union(v.literal("publisher"), v.literal("advertiser")),
+    role: v.optional(v.union(v.literal("publisher"), v.literal("advertiser"))),
     onboardingComplete: v.boolean(),
 
     // Business information

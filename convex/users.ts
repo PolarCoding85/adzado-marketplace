@@ -106,7 +106,7 @@ export const upsertFromClerk = internalMutation({
       imageUrl: data.image_url ?? undefined,
       onboardingComplete: false,
       // Only default to publisher if role is explicitly undefined
-      role: role ?? "publisher",
+      role: role ?? undefined,
 
       // Phone number and company info start as undefined
       phoneNumber: undefined,
@@ -152,6 +152,47 @@ export const upsertFromClerk = internalMutation({
       await ctx.db.patch(existingUser._id, updateAttributes);
       return existingUser._id;
     }
+  },
+});
+
+// Save advertiser onboarding
+export const saveAdvertiserOnboarding = mutation({
+  args: {
+    clerkUserId: v.string(),
+    firstName: v.string(),
+    lastName: v.string(),
+    phoneNumber: v.optional(v.string()),
+    jobTitle: v.optional(v.string()),
+    hasCompany: v.optional(v.boolean()),
+    companyName: v.optional(v.string()),
+    companyWebsite: v.optional(v.string()),
+    companySize: v.optional(v.string()),
+    industries: v.optional(v.array(v.string())),
+    subIndustries: v.optional(v.array(v.string())),
+    leadPreferences: v.optional(v.array(v.string())),
+    targetGeographies: v.optional(v.array(v.string())),
+    monthlyBudget: v.optional(v.string()),
+    onboardingComplete: v.boolean(),
+  },
+  handler: async (ctx, args) => {
+    const { clerkUserId, ...updateData } = args;
+
+    const existingUser = await ctx.db
+      .query("users")
+      .withIndex("by_clerk_user_id", (q) => q.eq("clerkUserId", clerkUserId))
+      .unique();
+
+    if (!existingUser) {
+      throw new Error("User not found");
+    }
+
+    // Update the user record with all the onboarding data
+    const userId = await ctx.db.patch(existingUser._id, {
+      ...updateData,
+      updatedAt: Date.now(),
+    });
+
+    return userId;
   },
 });
 

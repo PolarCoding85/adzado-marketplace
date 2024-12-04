@@ -32,7 +32,10 @@ import {
 } from "@/components/ui/popover";
 import { Badge } from "@/components/ui/badge";
 import { X, Check } from "lucide-react";
-import { useOnboarding } from "@/hooks/useOnboarding";
+import { toast } from "sonner";
+import { useAuth } from "@clerk/nextjs";
+import { useMutation } from "convex/react";
+import { api } from "@/convex/_generated/api";
 
 type GeographyLevel = "global" | "country" | "state" | "city" | "postal";
 type Location = {
@@ -45,16 +48,37 @@ type Location = {
 
 export default function AdvertiserOnboardingPage() {
   const router = useRouter();
+  const { userId } = useAuth();
+  const saveOnboarding = useMutation(api.users.saveAdvertiserOnboarding);
+
+  // Form state
   const [step, setStep] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
+
+  // Personal information
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [jobTitle, setJobTitle] = useState("");
+
+  // Company information
   const [hasCompany, setHasCompany] = useState(false);
+  const [companyName, setCompanyName] = useState("");
+  const [companyWebsite, setCompanyWebsite] = useState("");
+  const [companySize, setCompanySize] = useState("");
+
+  // Industry and targeting
   const [targetIndustries, setTargetIndustries] = useState<string[]>([]);
   const [targetSubIndustries, setTargetSubIndustries] = useState<string[]>([]);
   const [leadPreferences, setLeadPreferences] = useState<string[]>([]);
   const [targetGeographies, setTargetGeographies] = useState<string[]>([]);
+
+  // Budget
+  const [monthlyBudget, setMonthlyBudget] = useState("");
+
+  // Onboarding completion
   const [industriesOpen, setIndustriesOpen] = useState(false);
   const [subIndustriesOpen, setSubIndustriesOpen] = useState(false);
-  const [jobTitle, setJobTitle] = useState("");
   const [jobTitleOpen, setJobTitleOpen] = useState(false);
   const [geoLevel, setGeoLevel] = useState<GeographyLevel>("global");
   const [selectedLocations, setSelectedLocations] = useState<Location[]>([]);
@@ -168,13 +192,46 @@ export default function AdvertiserOnboardingPage() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     if (step < 5) {
       setStep(step + 1);
       return;
     }
+
+    if (!userId) {
+      toast.error("No user ID found. Please try signing in again.");
+      return;
+    }
+
     setIsLoading(true);
-    // TODO: Submit onboarding data
-    router.push("/dashboard");
+
+    try {
+      await saveOnboarding({
+        clerkUserId: userId,
+        firstName,
+        lastName,
+        phoneNumber,
+        jobTitle,
+        hasCompany,
+        companyName: hasCompany ? companyName : undefined,
+        companyWebsite: hasCompany ? companyWebsite : undefined,
+        companySize: hasCompany ? companySize : undefined,
+        industries: targetIndustries,
+        subIndustries: targetSubIndustries,
+        leadPreferences,
+        targetGeographies,
+        monthlyBudget,
+        onboardingComplete: true,
+      });
+
+      toast.success("Profile completed successfully!");
+      router.push("/dashboard/offers");
+    } catch (error) {
+      console.error("Error saving onboarding data:", error);
+      toast.error("Failed to save profile. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const getStepTitle = (currentStep: number) => {
@@ -196,17 +253,70 @@ export default function AdvertiserOnboardingPage() {
 
   return (
     <div className="relative flex min-h-screen w-screen flex-col items-center justify-center px-4 overflow-hidden">
-      {/* Background Graph SVG */}
+      {/* Animated Background */}
       <motion.div
         className="absolute inset-0 z-0 opacity-20"
         initial={{ opacity: 0 }}
         animate={{ opacity: 0.2 }}
         transition={{ duration: 1 }}
       >
-        {/* ... Same SVG background as publisher onboarding ... */}
+        <svg
+          viewBox="0 0 1000 400"
+          preserveAspectRatio="none"
+          className="h-full w-full"
+        >
+          <motion.path
+            initial={{ pathLength: 0 }}
+            animate={{ pathLength: 1 }}
+            transition={{ duration: 2, ease: "easeInOut" }}
+            d="M0 300 Q 250 100 500 300 T 1000 300 L 1000 400 L 0 400 Z"
+            fill="url(#fillGradient1)"
+            stroke="url(#gradient1)"
+            strokeWidth="2"
+          />
+          <motion.path
+            initial={{ pathLength: 0 }}
+            animate={{ pathLength: 1 }}
+            transition={{ duration: 2, delay: 0.5, ease: "easeInOut" }}
+            d="M0 350 Q 250 150 500 350 T 1000 350 L 1000 400 L 0 400 Z"
+            fill="url(#fillGradient2)"
+            stroke="url(#gradient2)"
+            strokeWidth="2"
+          />
+          <defs>
+            <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="#60A5FA" stopOpacity="0.4" />
+              <stop offset="100%" stopColor="#3B82F6" stopOpacity="0.8" />
+            </linearGradient>
+            <linearGradient id="gradient2" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="#93C5FD" stopOpacity="0.4" />
+              <stop offset="100%" stopColor="#60A5FA" stopOpacity="0.8" />
+            </linearGradient>
+            <linearGradient
+              id="fillGradient1"
+              x1="0%"
+              y1="0%"
+              x2="0%"
+              y2="100%"
+            >
+              <stop offset="0%" stopColor="#3B82F6" stopOpacity="0.2" />
+              <stop offset="100%" stopColor="#3B82F6" stopOpacity="0.05" />
+            </linearGradient>
+            <linearGradient
+              id="fillGradient2"
+              x1="0%"
+              y1="0%"
+              x2="0%"
+              y2="100%"
+            >
+              <stop offset="0%" stopColor="#60A5FA" stopOpacity="0.15" />
+              <stop offset="100%" stopColor="#60A5FA" stopOpacity="0.03" />
+            </linearGradient>
+          </defs>
+        </svg>
       </motion.div>
 
-      {/* Content */}
+      {/* Main Content */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -219,13 +329,35 @@ export default function AdvertiserOnboardingPage() {
           transition={{ delay: 0.2, duration: 0.5 }}
           className="flex flex-col space-y-2 text-center"
         >
+          {/* Logo */}
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 40 40"
+            className="mx-auto size-10"
+          >
+            <mask
+              id="a"
+              width="40"
+              height="40"
+              x="0"
+              y="0"
+              maskUnits="userSpaceOnUse"
+            >
+              <circle cx="20" cy="20" r="20" fill="#D9D9D9" />
+            </mask>
+            <g fill="#0A0A0A" mask="url(#a)">
+              <path d="M43.5 3a.5.5 0 0 0 0-1v1Zm0-1h-46v1h46V2ZM43.5 8a.5.5 0 0 0 0-1v1Zm0-1h-46v1h46V7ZM43.5 13a.5.5 0 0 0 0-1v1Zm0-1h-46v1h46v-1ZM43.5 18a.5.5 0 0 0 0-1v1Zm0-1h-46v1h46v-1ZM43.5 23a.5.5 0 0 0 0-1v1Zm0-1h-46v1h46v-1Z" />
+              <path d="M27 3.5a1 1 0 1 0 0-2v2Zm0-2h-46v2h46v-2ZM25 8.5a1 1 0 1 0 0-2v2Zm0-2h-46v2h46v-2Z" />
+            </g>
+          </svg>
           <h1 className="gradient-heading text-3xl font-bold tracking-tight">
             Complete Your Profile
           </h1>
           <p className="text-sm text-muted-foreground">{getStepTitle(step)}</p>
         </motion.div>
 
-        <Card className="p-6">
+        <Card className="p-6 border-white/5 bg-gradient-to-r from-blue-500/5 to-purple-500/5">
           <form onSubmit={handleSubmit} className="space-y-6">
             {step === 1 ? (
               <div className="space-y-4">
@@ -235,7 +367,9 @@ export default function AdvertiserOnboardingPage() {
                     <Input
                       id="firstName"
                       required
-                      className="rounded-lg"
+                      value={firstName}
+                      onChange={(e) => setFirstName(e.target.value)}
+                      className="rounded-lg bg-white/5 border-white/10 focus:border-blue-500/50"
                       placeholder="John"
                     />
                   </div>
@@ -244,7 +378,9 @@ export default function AdvertiserOnboardingPage() {
                     <Input
                       id="lastName"
                       required
-                      className="rounded-lg"
+                      value={lastName}
+                      onChange={(e) => setLastName(e.target.value)}
+                      className="rounded-lg bg-white/5 border-white/10 focus:border-blue-500/50"
                       placeholder="Doe"
                     />
                   </div>
@@ -254,70 +390,36 @@ export default function AdvertiserOnboardingPage() {
                   <Input
                     id="phone"
                     type="tel"
-                    className="rounded-lg"
+                    value={phoneNumber}
+                    onChange={(e) => setPhoneNumber(e.target.value)}
+                    className="rounded-lg bg-white/5 border-white/10 focus:border-blue-500/50"
                     placeholder="+1 (555) 000-0000"
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="title">Job Title</Label>
-                  <Popover open={jobTitleOpen} onOpenChange={setJobTitleOpen}>
+                  <Label htmlFor="jobTitle">Job Title</Label>
+                  <Popover>
                     <PopoverTrigger asChild>
                       <Button
                         variant="outline"
                         role="combobox"
-                        aria-expanded={jobTitleOpen}
                         className="w-full justify-start text-left font-normal"
                       >
-                        <span className="text-muted-foreground">
-                          {jobTitle
-                            ? commonJobTitles.find(
-                                (title) => title.value === jobTitle
-                              )?.label || jobTitle
-                            : "Select job title..."}
-                        </span>
+                        {jobTitle || "Select job title..."}
                       </Button>
                     </PopoverTrigger>
-                    <PopoverContent className="p-0 w-[400px]" align="start">
+                    <PopoverContent className="w-[400px] p-0">
                       <Command>
                         <CommandInput placeholder="Search job title..." />
                         <CommandList>
-                          <CommandEmpty>
-                            <div className="p-2 text-sm text-muted-foreground">
-                              No matching job title found. Type to enter a
-                              custom title.
-                              <Button
-                                variant="secondary"
-                                className="w-full mt-2"
-                                onClick={() => {
-                                  const input = document.querySelector(
-                                    "[cmdk-input]"
-                                  ) as HTMLInputElement;
-                                  if (input) {
-                                    setJobTitle(input.value);
-                                    setJobTitleOpen(false);
-                                  }
-                                }}
-                              >
-                                Add custom title
-                              </Button>
-                            </div>
-                          </CommandEmpty>
-                          <CommandGroup heading="Common Job Titles">
+                          <CommandEmpty>No job title found.</CommandEmpty>
+                          <CommandGroup>
                             {commonJobTitles.map((title) => (
                               <CommandItem
                                 key={title.value}
-                                value={title.value}
-                                onSelect={(value) => {
-                                  setJobTitle(value);
-                                  setJobTitleOpen(false);
-                                }}
+                                onSelect={() => setJobTitle(title.label)}
                               >
-                                <div className="flex items-center justify-between w-full">
-                                  {title.label}
-                                  {jobTitle === title.value && (
-                                    <Check className="h-4 w-4 text-primary" />
-                                  )}
-                                </div>
+                                {title.label}
                               </CommandItem>
                             ))}
                           </CommandGroup>
@@ -337,25 +439,21 @@ export default function AdvertiserOnboardingPage() {
                       setHasCompany(checked as boolean)
                     }
                   />
-                  <Label
-                    htmlFor="hasCompany"
-                    className="text-sm text-muted-foreground"
-                  >
-                    I'm representing a company
-                  </Label>
+                  <Label htmlFor="hasCompany">I'm representing a company</Label>
                 </div>
 
                 {hasCompany && (
                   <motion.div
                     initial={{ opacity: 0, height: 0 }}
                     animate={{ opacity: 1, height: "auto" }}
-                    exit={{ opacity: 0, height: 0 }}
                     className="space-y-4"
                   >
                     <div className="space-y-2">
                       <Label htmlFor="companyName">Company Name</Label>
                       <Input
                         id="companyName"
+                        value={companyName}
+                        onChange={(e) => setCompanyName(e.target.value)}
                         className="rounded-lg"
                         placeholder="Acme Inc."
                       />
@@ -365,13 +463,18 @@ export default function AdvertiserOnboardingPage() {
                       <Input
                         id="website"
                         type="url"
+                        value={companyWebsite}
+                        onChange={(e) => setCompanyWebsite(e.target.value)}
                         className="rounded-lg"
                         placeholder="https://example.com"
                       />
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="companySize">Company Size</Label>
-                      <Select>
+                      <Select
+                        value={companySize}
+                        onValueChange={setCompanySize}
+                      >
                         <SelectTrigger>
                           <SelectValue placeholder="Select company size" />
                         </SelectTrigger>
@@ -791,11 +894,15 @@ export default function AdvertiserOnboardingPage() {
                 </div>
               </div>
             ) : (
+              // Budget and goals section
               <div className="space-y-6">
                 <div className="space-y-4">
                   <div className="space-y-2">
                     <Label>Monthly Budget Range</Label>
-                    <Select>
+                    <Select
+                      value={monthlyBudget}
+                      onValueChange={setMonthlyBudget}
+                    >
                       <SelectTrigger>
                         <SelectValue placeholder="Select your monthly budget" />
                       </SelectTrigger>
@@ -824,6 +931,7 @@ export default function AdvertiserOnboardingPage() {
               </div>
             )}
 
+            {/* Navigation buttons */}
             <div className="flex gap-3">
               {step > 1 && (
                 <Button
@@ -850,6 +958,7 @@ export default function AdvertiserOnboardingPage() {
           </form>
         </Card>
 
+        {/* Progress indicators */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}

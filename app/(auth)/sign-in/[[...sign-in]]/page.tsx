@@ -9,7 +9,7 @@ import { motion } from "framer-motion";
 
 export default function SignInPage() {
   return (
-    <div className="relative flex min-h-screen w-screen flex-col items-center justify-center px-4 overflow-hidden">
+    <div className="relative flex min-h-screen items-center justify-center px-4">
       {/* Background Graph SVG */}
       <motion.div
         className="absolute inset-0 z-0 opacity-20"
@@ -74,7 +74,7 @@ export default function SignInPage() {
       </motion.div>
 
       {/* Content */}
-      <div className="relative z-10 mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
+      <div className="relative z-10 w-full max-w-[350px] mx-auto">
         <SignIn.Root>
           <SignIn.Step name="start">
             <motion.div

@@ -1,6 +1,5 @@
 "use client"
 
-import { useRole } from "@/hooks/use-role"
 import { Card } from "@/components/ui/card"
 import {
   BarChart3,
@@ -142,7 +141,7 @@ function AdvertiserDashboard() {
 }
 
 export default function DashboardPage() {
-  const role = useRole()
+  const role = "publisher"
 
   return (
     <motion.div

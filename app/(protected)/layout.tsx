@@ -1,9 +1,19 @@
-import { RoleBasedLayout } from "@/components/layouts/role-based-layout"
+// app/(protected)/layout.tsx
 
-export default function ProtectedLayout({
+import { redirect } from "next/navigation";
+import { RoleBasedLayout } from "@/components/layouts/role-based-layout";
+import { currentUser } from "@clerk/nextjs/server";
+
+export default async function ProtectedLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
-  return <RoleBasedLayout>{children}</RoleBasedLayout>
+  const user = await currentUser();
+
+  if (!user) {
+    redirect("/sign-in");
+  }
+
+  return <RoleBasedLayout>{children}</RoleBasedLayout>;
 }

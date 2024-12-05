@@ -353,7 +353,7 @@ export default function PublisherOnboardingPage() {
       </motion.div>
 
       {/* React Hook Form DevTools */}
-      <DevTool control={control} />
+      {/* <DevTool control={control} /> */}
     </div>
   );
 }

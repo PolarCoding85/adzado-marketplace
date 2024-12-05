@@ -1,8 +1,11 @@
-"use client";
+// components/dashboard/side-nav.tsx
 
-import { useAuth } from "@/hooks/useAuth";
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
+"use client"
+
+import { usePathname } from "next/navigation"
+import { useAuth } from "@/hooks/useAuth"
+import { cn } from "@/lib/utils"
+import { Button } from "@/components/ui/button"
 import {
   LayoutDashboard,
   BarChart,
@@ -12,21 +15,19 @@ import {
   Building,
   DollarSign,
   Search,
-  Bell,
-} from "lucide-react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+} from "lucide-react"
+import Link from "next/link"
 
 interface NavItem {
-  title: string;
-  href: string;
-  icon: any;
-  description?: string;
+  title: string
+  href: string
+  icon: any
+  description?: string
 }
 
 export function SideNav() {
-  const { role } = useAuth();
-  const pathname = usePathname();
+  const { role } = useAuth()
+  const pathname = usePathname()
 
   // Common navigation items
   const commonNavItems: NavItem[] = [
@@ -37,83 +38,65 @@ export function SideNav() {
     },
     {
       title: "Analytics",
-      href: "/dashboard/analytics",
+      href: "/analytics",
       icon: BarChart,
     },
-  ];
+    {
+      title: "Settings",
+      href: "/settings",
+      icon: Settings,
+    },
+  ]
 
   // Publisher-specific navigation items
   const publisherNavItems: NavItem[] = [
     {
       title: "Browse Offers",
-      href: "/dashboard/offers/publisher",
+      href: "/offers/browse",
       icon: Search,
       description: "Find and apply to offers",
     },
     {
       title: "My Applications",
-      href: "/dashboard/offers/applications",
+      href: "/offers/applications",
       icon: FileText,
       description: "Track your offer applications",
     },
     {
       title: "Payouts",
-      href: "/dashboard/payouts",
+      href: "/payouts",
       icon: DollarSign,
       description: "Manage your earnings",
     },
-    {
-      title: "Settings",
-      href: "/dashboard/settings",
-      icon: Settings,
-      description: "Account settings",
-    },
-  ];
+  ]
 
   // Advertiser-specific navigation items
   const advertiserNavItems: NavItem[] = [
     {
       title: "My Offers",
-      href: "/dashboard/offers",
+      href: "/offers/manage",
       icon: FileText,
       description: "Manage your offers",
     },
     {
       title: "Publisher Requests",
-      href: "/dashboard/requests",
+      href: "/publishers/requests",
       icon: UserPlus,
       description: "Review publisher applications",
     },
     {
       title: "Company",
-      href: "/dashboard/company",
+      href: "/company",
       icon: Building,
       description: "Manage company details",
     },
-    {
-      title: "Billing",
-      href: "/dashboard/billing",
-      icon: DollarSign,
-      description: "Manage payments",
-    },
-    {
-      title: "Notifications",
-      href: "/dashboard/notifications",
-      icon: Bell,
-      description: "View notifications",
-    },
-    {
-      title: "Settings",
-      href: "/dashboard/settings",
-      icon: Settings,
-      description: "Account settings",
-    },
-  ];
+  ]
 
+  // Combine navigation items based on role
   const navItems = [
     ...commonNavItems,
     ...(role === "publisher" ? publisherNavItems : advertiserNavItems),
-  ];
+  ]
 
   return (
     <div className="w-64 border-r bg-muted/10 h-screen sticky top-0">
@@ -139,5 +122,5 @@ export function SideNav() {
         </div>
       </div>
     </div>
-  );
+  )
 }

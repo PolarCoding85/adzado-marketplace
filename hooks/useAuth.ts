@@ -1,34 +1,34 @@
 // hooks/useAuth.ts
-
-import { useAuth as useClerkAuth } from "@clerk/nextjs";
+import { useConvexAuth } from "convex/react";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { useRouter } from "next/navigation";
 
 export function useAuth() {
-  const { userId, isLoaded, isSignedIn } = useClerkAuth();
+  const { isAuthenticated, isLoading } = useConvexAuth();
   const router = useRouter();
 
+  // Get user data from Convex
   const user = useQuery(api.users.getUserByClerkId, {
-    clerkId: userId ?? "",
+    clerkId: isAuthenticated ? "me" : "",
   });
 
-  const loading = !isLoaded || user === undefined;
+  const loading = isLoading || user === undefined;
   const role = user?.role as "publisher" | "advertiser" | undefined;
   const onboardingComplete = user?.onboardingComplete ?? false;
 
   const checkAuth = () => {
-    if (isLoaded && !isSignedIn) {
+    if (!isLoading && !isAuthenticated) {
       router.push("/sign-in");
       return;
     }
 
-    if (isSignedIn && !role) {
+    if (isAuthenticated && !role) {
       router.push("/select-role");
       return;
     }
 
-    if (isSignedIn && role && !onboardingComplete) {
+    if (isAuthenticated && role && !onboardingComplete) {
       const onboardingPath =
         role === "publisher"
           ? "/publisher-onboarding"
@@ -40,10 +40,9 @@ export function useAuth() {
 
   return {
     user,
-    userId,
     role,
     loading,
-    isSignedIn,
+    isAuthenticated,
     onboardingComplete,
     checkAuth,
   };

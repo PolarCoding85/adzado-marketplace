@@ -43,6 +43,9 @@ export default defineSchema({
     monthlyBudget: v.optional(v.string()),
     leadPreferences: v.optional(v.array(v.string())),
 
+    // Timezone
+    timezone: v.optional(v.string()),
+
     // Metadata
     createdAt: v.number(),
     updatedAt: v.number(),
@@ -50,4 +53,19 @@ export default defineSchema({
     .index("by_clerk_user_id", ["clerkUserId"])
     .index("by_email", ["email"])
     .index("by_role", ["role"]),
+
+  notifications: defineTable({
+    // Link to user
+    userId: v.id("users"),
+
+    // Notification settings
+    security: v.boolean(),
+    updates: v.boolean(),
+    offers: v.boolean(),
+    reports: v.boolean(),
+
+    // Metadata
+    createdAt: v.number(),
+    updatedAt: v.number(),
+  }).index("by_user_id", ["userId"]),
 });

@@ -10,9 +10,9 @@ import { LatestStats } from "../../components/marketing/home/latest-stats"
 
 export default function Home() {
   return (
-    <div className='min-h-[calc(100vh-4rem)] flex flex-col'>
+    <div className='min-h-[calc(100vh-4rem)] flex flex-col mt-16'>
       {/* Premium Offer Banner */}
-      <div className='bg-gradient-to-r from-yellow-500/10 to-yellow-500/5 border-y border-yellow-500/10'>
+      <div className='fixed top-16 left-0 right-0 z-50 bg-gradient-to-r from-yellow-500/10 to-yellow-500/5 border-y border-yellow-500/10 backdrop-blur-lg'>
         <div className='mx-auto w-full max-w-7xl flex items-center justify-between py-3 px-4'>
           <div className='flex items-center gap-2'>
             <DollarSignIcon className='h-4 w-4 text-yellow-500' />

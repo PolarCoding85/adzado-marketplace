@@ -9,31 +9,35 @@ import { api } from "@/convex/_generated/api";
 const convex = new ConvexHttpClient(process.env.NEXT_PUBLIC_CONVEX_URL!);
 
 const routeConfig = {
+  // Common routes that both roles can access
+  common: {
+    allowed: [
+      "/settings",
+      "/analytics",
+      "/help",
+    ],
+  },
   publisher: {
     allowed: [
       "/dashboard",
-      "/dashboard/analytics",
-      "/dashboard/offers/publisher",
-      "/dashboard/offers/applications",
-      "/dashboard/payouts",
-      "/dashboard/settings",
+      "/offers/browse",
+      "/offers/applications",
+      "/payouts",
       "/publisher-onboarding",
     ],
-    redirect: "/dashboard/offers/publisher",
+    redirect: "/offers/browse",
     onboarding: "/publisher-onboarding",
   },
   advertiser: {
     allowed: [
       "/dashboard",
-      "/dashboard/analytics",
-      "/dashboard/offers",
-      "/dashboard/requests",
-      "/dashboard/company",
-      "/dashboard/billing",
-      "/dashboard/settings",
+      "/offers/manage",
+      "/publishers/requests",
+      "/company",
+      "/billing",
       "/advertiser-onboarding",
     ],
-    redirect: "/dashboard/offers",
+    redirect: "/offers/manage",
     onboarding: "/advertiser-onboarding",
   },
 };
@@ -146,7 +150,7 @@ export default clerkMiddleware(async (auth, req) => {
       if (path !== correctOnboardingRoute) {
         return NextResponse.redirect(new URL(correctOnboardingRoute, req.url));
       }
-      return NextResponse.next();  // Allow access to correct onboarding route
+      return NextResponse.next();
     }
   }
 
@@ -157,6 +161,15 @@ export default clerkMiddleware(async (auth, req) => {
         ? routeConfig.publisher.onboarding
         : routeConfig.advertiser.onboarding;
     return NextResponse.redirect(new URL(onboardingRoute, req.url));
+  }
+
+  // Check if the route is in common routes
+  const isCommonRoute = routeConfig.common.allowed.some(
+    (route) => path === route || path.startsWith(`${route}/`)
+  );
+  
+  if (isCommonRoute) {
+    return NextResponse.next();
   }
 
   // Role-based access control

@@ -9,6 +9,9 @@ import {
   QueryCtx,
 } from "./_generated/server";
 
+// Phone number validation regex
+const PHONE_REGEX = /^\+?[1-9]\d{1,14}$/;
+
 // Get all users
 export const getUsers = query({
   args: {},
@@ -41,6 +44,48 @@ export const getUserByClerkId = query({
       .query("users")
       .withIndex("by_clerk_user_id", (q) => q.eq("clerkUserId", clerkId))
       .unique();
+  },
+});
+
+// Update user profile
+export const updateProfile = mutation({
+  args: {
+    firstName: v.string(),
+    lastName: v.string(),
+    phoneNumber: v.optional(v.string()),
+    timezone: v.string(),
+  },
+  async handler(ctx, args) {
+    const identity = await ctx.auth.getUserIdentity();
+    
+    if (!identity) {
+      throw new Error("Unauthorized");
+    }
+
+    // Validate phone number if provided
+    if (args.phoneNumber && !PHONE_REGEX.test(args.phoneNumber)) {
+      throw new Error("Invalid phone number format");
+    }
+
+    const user = await ctx.db
+      .query("users")
+      .withIndex("by_clerk_user_id", (q) => q.eq("clerkUserId", identity.subject))
+      .unique();
+
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    // Update the user profile
+    const userId = await ctx.db.patch(user._id, {
+      firstName: args.firstName,
+      lastName: args.lastName,
+      phoneNumber: args.phoneNumber,
+      timezone: args.timezone,
+      updatedAt: Date.now(),
+    });
+
+    return userId;
   },
 });
 

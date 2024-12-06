@@ -1,0 +1,1 @@
+// app/(protected)/my-offers/page.tsx

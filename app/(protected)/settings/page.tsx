@@ -1,8 +1,7 @@
 // app/(protected)/settings/page.tsx
-"use client"
 
-import { Settings } from "@/components/settings/settings-content"
+import { redirect } from "next/navigation";
 
 export default function SettingsPage() {
-  return <Settings />
+  redirect("/settings/personal");
 }

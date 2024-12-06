@@ -5,6 +5,7 @@ import "./globals.css";
 import { MainNav } from "@/components/layouts/main-nav";
 import { Footer } from "@/components/layouts/footer";
 import SystemProviders from "@/providers/system-providers";
+import { Toaster } from "@/components/ui/sonner";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,6 +24,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <SystemProviders>
           {children}
+          <Toaster position="top-right" />
         </SystemProviders>
       </body>
     </html>

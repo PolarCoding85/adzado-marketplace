@@ -1,12 +1,12 @@
-// components/dashboard/side-nav.tsx
+  // components/dashboard/side-nav.tsx
 
-"use client"
+ "use client";
 
-import { useState } from "react"
-import { usePathname } from "next/navigation"
-import { useAuth } from "@/hooks/useAuth"
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
+import { useState } from "react";
+import { usePathname } from "next/navigation";
+import { useAuth } from "@/hooks/useAuth";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 import {
   LayoutDashboard,
   BarChart,
@@ -19,23 +19,28 @@ import {
   ChevronLeft,
   HelpCircle,
   LifeBuoy,
-} from "lucide-react"
-import Link from "next/link"
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
-import { useUser, UserButton } from "@clerk/nextjs"
+} from "lucide-react";
+import Link from "next/link";
+import { 
+  Tooltip, 
+  TooltipContent, 
+  TooltipProvider, 
+  TooltipTrigger 
+} from "@/components/ui/tooltip";
+import { useUser, UserButton } from "@clerk/nextjs";
 
 interface NavItem {
-  title: string
-  href: string
-  icon: any
-  description?: string
+  title: string;
+  href: string;
+  icon: any;
+  description?: string;
 }
 
 export function SideNav() {
-  const { role } = useAuth()
-  const pathname = usePathname()
-  const [isCollapsed, setIsCollapsed] = useState(false)
-  const { user } = useUser()
+  const { role } = useAuth();
+  const pathname = usePathname();
+  const [isCollapsed, setIsCollapsed] = useState(false);
+  const { user } = useUser();
 
   // Common navigation items
   const commonNavItems: NavItem[] = [
@@ -49,7 +54,7 @@ export function SideNav() {
       href: "/analytics",
       icon: BarChart,
     },
-  ]
+  ];
 
   // Publisher-specific navigation items
   const publisherNavItems: NavItem[] = [
@@ -71,7 +76,7 @@ export function SideNav() {
       icon: DollarSign,
       description: "Manage your earnings",
     },
-  ]
+  ];
 
   // Advertiser-specific navigation items
   const advertiserNavItems: NavItem[] = [
@@ -93,13 +98,21 @@ export function SideNav() {
       icon: Building,
       description: "Manage company details",
     },
-  ]
+  ];
 
   // Combine navigation items based on role
   const navItems = [
     ...commonNavItems,
     ...(role === "publisher" ? publisherNavItems : advertiserNavItems),
-  ]
+  ];
+
+  // Helper function to check if a path is active
+  const isActivePath = (href: string) => {
+    if (href === "/dashboard" && pathname === "/dashboard") {
+      return true;
+    }
+    return pathname.startsWith(href) && href !== "/dashboard";
+  };
 
   return (
     <TooltipProvider delayDuration={0}>
@@ -110,10 +123,7 @@ export function SideNav() {
         )}
       >
         {/* Logo Section */}
-        <div className={cn(
-          "p-6",
-          isCollapsed && "px-4"
-        )}>
+        <div className={cn("p-6", isCollapsed && "px-4")}>
           <Link href="/" className="flex items-center">
             <div className="flex items-center">
               <div className="h-6 w-1.5 bg-blue-500 transform -skew-x-12" />
@@ -134,10 +144,10 @@ export function SideNav() {
                 <TooltipTrigger asChild>
                   <Link href={item.href}>
                     <Button
-                      variant={pathname === item.href ? "secondary" : "ghost"}
+                      variant={isActivePath(item.href) ? "secondary" : "ghost"}
                       className={cn(
                         "w-full justify-start",
-                        pathname === item.href && "bg-muted",
+                        isActivePath(item.href) && "bg-muted",
                         isCollapsed && "justify-center px-2"
                       )}
                       title={item.description}
@@ -173,10 +183,10 @@ export function SideNav() {
               <TooltipTrigger asChild>
                 <Link href="/support">
                   <Button
-                    variant={pathname === "/support" ? "secondary" : "ghost"}
+                    variant={isActivePath("/support") ? "secondary" : "ghost"}
                     className={cn(
                       "w-full justify-start",
-                      pathname === "/support" && "bg-muted",
+                      isActivePath("/support") && "bg-muted",
                       isCollapsed && "justify-center px-2"
                     )}
                   >
@@ -202,10 +212,10 @@ export function SideNav() {
               <TooltipTrigger asChild>
                 <Link href="/settings">
                   <Button
-                    variant={pathname === "/settings" ? "secondary" : "ghost"}
+                    variant={isActivePath("/settings") ? "secondary" : "ghost"}
                     className={cn(
                       "w-full justify-start",
-                      pathname === "/settings" && "bg-muted",
+                      isActivePath("/settings") && "bg-muted",
                       isCollapsed && "justify-center px-2"
                     )}
                   >
@@ -255,5 +265,5 @@ export function SideNav() {
         </Button>
       </div>
     </TooltipProvider>
-  )
+  );
 }

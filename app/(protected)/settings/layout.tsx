@@ -1,9 +1,7 @@
 // app/(protected)/settings/layout.tsx
 
-export default function SettingsLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  return children;
+import { SettingsLayout } from "@/components/settings/settings-layout";
+
+export default function Layout({ children }: { children: React.ReactNode }) {
+  return <SettingsLayout>{children}</SettingsLayout>;
 }

@@ -13,7 +13,10 @@ const routeConfig = {
   common: {
     allowed: [
       "/settings",
+      "/settings/personal",
+      "/settings/notifications",
       "/analytics",
+      "/support",
       "/help",
     ],
   },

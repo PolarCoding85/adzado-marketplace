@@ -4,7 +4,6 @@
 
 import { useAuth } from "@/hooks/useAuth"
 import { Button } from "@/components/ui/button"
-import { ThemeToggle } from "@/components/layouts/theme-toggle"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -25,6 +24,7 @@ import { useUser } from "@clerk/nextjs"
 import { Badge } from "@/components/ui/badge"
 import { useConvexAuth, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
+import { ModeToggle } from "../layouts/theme-toggle"
 
 export function TopNav() {
   const { isAuthenticated, isLoading } = useConvexAuth();
@@ -78,7 +78,7 @@ export function TopNav() {
           </Button>
 
           {/* Theme Toggle */}
-          <ThemeToggle />
+          <ModeToggle />
 
           {/* User Menu */}
           <DropdownMenu>

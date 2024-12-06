@@ -19,14 +19,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
         <SystemProviders>
-          <div className="relative min-h-screen flex flex-col">
-            <MainNav />
-            <main className="flex-1">{children}</main>
-            <Footer />
-          </div>
+          {children}
         </SystemProviders>
       </body>
     </html>

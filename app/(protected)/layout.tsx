@@ -3,6 +3,7 @@
 import { redirect } from "next/navigation";
 import { RoleBasedLayout } from "@/components/layouts/role-based-layout";
 import { currentUser } from "@clerk/nextjs/server";
+import { ThemeProvider } from "@/components/theme-provider";
 
 export default async function ProtectedLayout({
   children,
@@ -15,5 +16,16 @@ export default async function ProtectedLayout({
     redirect("/sign-in");
   }
 
-  return <RoleBasedLayout>{children}</RoleBasedLayout>;
+  return (
+    <RoleBasedLayout>
+      <ThemeProvider
+        attribute="class"
+        defaultTheme="dark"
+        enableSystem
+        disableTransitionOnChange
+      >
+        {children}
+      </ThemeProvider>
+    </RoleBasedLayout>
+  );
 }
